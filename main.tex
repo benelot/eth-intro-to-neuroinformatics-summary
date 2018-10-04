@@ -36,7 +36,7 @@
 
 
 \title{\textbf{Introduction to Neuroinformatics} \\Summary of the lectures
-2014\\\normalsize Version 3.0 \\
+2018\\\normalsize Version 4.0 \\
 for internal use by students attending the lecture only}
 
 \author{
@@ -47,7 +47,11 @@ for internal use by students attending the lecture only}
 	Joachim Ott\\Dora Sumislawska
 \and
 \texttt{Revision 2014}\\
-	Fabian Tschopp}
+	Fabian Tschopp
+\and
+\texttt{Revision 2018}\\
+	Vanessa Leite}
+
 \date{}
 
 
@@ -61,22 +65,32 @@ for internal use by students attending the lecture only}
 \subsection{Introduction}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Human brain on average: $1.5 kg$ weight, $1.2 l$ volume.
+	\item Human brains are large, but by far not the largest (for instance, elephants and whales have bigger brains).
 	\item The brain mainly is there to receive stimuli from the environment, encode it, do sensory integration and finally decode to make movements, actions and decisions.
+	\item The cells (neurons) that make up brains are very similar between species.
+	\item Some neuron types occur in specific parts of the brain and it is consistent between species.
+	\item A neuron is a processing unit that receives electrical input and generates electrical output.
+
 \end{itemize}
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.6]{1_2.jpg}
  	\caption{Turing Machine / CPU}
 \end{figure} 
-\textbf{Differences between a brain and a computer:}
+
+\paragraph{How information is processed in the brain?}
+We can consider many levels when we talk about the brain processing information. From the highest to the lowest level: behavior $\rightarrow$ system and pathways $\rightarrow$ circuits $\rightarrow$ neurons $\rightarrow$ microcircuits $\rightarrow$ synapses $\rightarrow$ membrane potential (molecules and ions). \\
+
+\textbf{Differences between a brain and a computer (what the brains have):}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Massive parallelism
 	\item Constantly adapting
 	\item Chemical signaling
-	\item Unreliable units
+	\item Unreliable units (brain is noisy compared to a computer)
 	\item Analog computation
 	\item Robust to damage
 	\item Very energy efficient
+	\item Memory fixed in place (as part of each processing unit).
 \end{itemize}
 \textbf{Similarities between a brain and a computer:}
 \begin{itemize}[noitemsep,nolistsep]
@@ -87,6 +101,14 @@ for internal use by students attending the lecture only}
 	\item Can learn from inputs
 	\item Consume energy
 \end{itemize}
+
+\paragraph{Easy vs Dificult tasks}
+Things that we can do and computer can't, change over time. Things that are easy to humans can be hard to a computer, mostly because we don't know how to simulate a brain. We do things without think consciously about it.
+
+\begin{itemize}
+\item It is comparatively easy to make computers exhibit adult level performance on intelligence tests or playing checkers, and difficult or impossible to give them the skills of a one-year-old when it comes to perception and mobility.” – Hans Moravec
+\end{itemize}
+
 \textbf{Other facts}
 \begin{itemize}[noitemsep,nolistsep]
 	\item An 83000-Processor supercomputer can only match $1\%$ of the human brain.
@@ -94,6 +116,9 @@ for internal use by students attending the lecture only}
 	\item Human brain project aims to simulate the entire human brain on computers.
 	\item More efficient simulations of brain behavior by Neurogrid or IBM TrueNorth.
 	\item Number of neurons in human brain: $\sim10^{11}$, synapses: $\sim10^{15}$.
+	\item Number of genes in human genome: $\sim$25000.
+	\item WindowsXP contains more code (1.5Gb) for operating a personal computer than DNA ($\sim$750Mb) to generate life.
+	\item Deep Neural Networks were inspired by the brain in the beggining but it is not like the brain (neurons) works.
 	
 \end{itemize}
 
