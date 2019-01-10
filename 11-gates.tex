@@ -25,11 +25,11 @@ Circuits are a combination of gates.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.4\textwidth]{circuit.png}
-	\label{fig:circuit}
+	\label{fig:circuit-gates}
 	\caption{A basic circuit implementing an OR gate.}
 \end{figure}
 
-The circuit in Fig~\ref{fig:circuit} produces the same as an OR gate. With NOT and AND gates we can build an OR gate, but with AND and OR we can't build a NOT gate.
+The circuit in Fig~\ref{fig:circuit-gates} produces the same as an OR gate. With NOT and AND gates we can build an OR gate, but with AND and OR we can't build a NOT gate.
 
 \paragraph{XOR gates = exclusive OR}
 They are exclusive in the case of two inputs. For more than two, XOR counts the number of "active" ($1$'s) inputs and returns $0$ for even and $1$ for odd.
@@ -96,5 +96,28 @@ XOR is not a linear combination of the inputs.
 	\item Real neurons have degrees of activation, not just on/off.
 	\item The activation as a function of the inputs of real neuron is typically not linear or threshold linear.
 \end{itemize}
+
+\subsection{Threshold function}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.2\textwidth]{simplified-LT.png}
+	\caption{Same unit in two representations}
+	\label{fig:simplified-LT}
+\end{figure}
+
+Both units in Fig~\ref{fig:simplified-LT} are the same. The one in the bottom is a simplified version, where the inputs $x$ and the weights $w$ are represented as vectors. The bias term is added to the weight vector and a new input $x_0$ is added with a fixed value of $1$.\\
+$f(x_1, x_2, x_3) = \theta(w_1 \times x_1 + w_2 \times x_2 + w_3 \times x_3 + w_0)$\\
+$f(\vec{x}) = \theta(\vec{w} \times \vec{x} + w_0)$\\
+
+\[
+  \theta(x)=
+  \begin{cases}
+     0 \text{, if } x < 0\\
+     1 \text{, if } x \geq 0\\
+  \end{cases}
+\]
+
+
 
 \end{document}
