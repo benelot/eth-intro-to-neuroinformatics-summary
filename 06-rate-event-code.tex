@@ -6,8 +6,24 @@
 % Lecturer: Benjamin Grewe
 % author: Vanessa Leite - base document from benelot/eth-intro-to-neuroinformatics-summary
 
-\section{Rate / Event Coding}
-\subsection{Neural Coding}
+\section{Neural Coding}
+
+The problem of neural coding is to elucidate "the representation and transformation of information in the nervous system".
+
+\paragraph{Correspondence} a code is the correspondence between two domains. This mean that one domain (for instance, visual signal) can be specified (encoded) by another (for instance, spike trains), this way one can, theoretically, reconstruct  the original message from the encoded message with some accuracy (decoding).
+
+\paragraph{Representation} not all cases of correlation are considered as a instance of coding.
+
+\paragraph{Causality} Although spike trains encode visual signal, we wouldn't say that visual signals enconde spike trains. Because we assume a casual relation: visual signals generate spike trains.
+
+\paragraph{Encoding} How does a stimulus cause a pattern of responses? Building a approximate mechanistic model of the world.
+
+\paragraph{Decoding} What do the responses tell us about the stimulus? How can we reconstruct the stimulus?
+
+By recording neuronal responses in the cat visual cortex, we identify that the visual cortex encondes the orientation of a moving stimulus and has a orientation specific organization.
+In rats, spatial information is coded via hippocampal place cells.
+
+
 \begin{itemize}[noitemsep,nolistsep]
 	\item Information is encoded by firing of single neurons and firing of populations of neurons.
 	\item A neuron encodes information, fires to stimuli.
@@ -16,6 +32,7 @@
 	\item It is an issue to record from many neurons simultaneously.
 	\item There is not much information in the slope of a spike.
 \end{itemize}
+
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.5\textwidth}
@@ -28,6 +45,7 @@
 		\includegraphics[width=\textwidth]{firing-rate.png}
 	\end{subfigure}
 \end{figure}
+
 \begin{itemize}[noitemsep,nolistsep]
 	\item Raster plot with spikes and histogram. Stimulus takes place at $t = 0$.
 	\item Use bins (about 100 ms in time) with a sliding window and a gauss filter and causal filter.
@@ -36,7 +54,12 @@
 	\item Typically neurons fire between $1\,Hz$ and $200\,Hz$ - often around $40\,Hz$.
 \end{itemize}
 
+
+
 \subsection{Neuronal Rate Codes}
+Rate coding refers to information being carried by the firing rate. It is often
+argued, or assumed, that firing rate captures essentially all relevant information.
+
 \begin{itemize}[noitemsep,nolistsep]
 	\item Rate = average over time, single neuron, single run.
 	\item $v = \frac{n_{sp}}{T}$
@@ -45,6 +68,21 @@
 	\item Easy to understand, but no timing effects and misleading as more than one stimulus might be encoded.
 	\item It takes time to compute a temporal average and behavioral response time is shorter than integration time.
 \end{itemize}
+
+\subsection{Neuronal Temporal Codes}
+Temporal coding may refer to several quite different ideas:
+\begin{itemize}
+\item Much of the information may be transmitted by a neuron during certain small intervals of time.
+\item synchronous, or what I would call quasi-synchronous, firing of neurons within and across ensembles may carry important information.
+\item the precise timing, or pattern, of spikes may carry information.
+\end{itemize}
+
+\subsection{Sound localization by measuring  the Interaural Time Difference (ITD)}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{interaural-time-difference.png}
+\end{figure}
 
 \subsection{Peri-Stimulus Time Histogram (PSTH)}
 \begin{itemize}[noitemsep,nolistsep]
