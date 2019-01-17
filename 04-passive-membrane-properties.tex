@@ -7,6 +7,16 @@
 % author: Vanessa Leite - base document from benelot/eth-intro-to-neuroinformatics-summary
 
 \section{Passive (Cable) Membrane Properties}
+
+\subsection{Biophysics of the membrane}
+\begin{itemize}
+\item Membrane separates in and out. It is an insulator/capacitor.
+\item Ionic pumps: $[ion]_{in} \neq [ion]_{out}$
+\item Selective ion channels
+\end{itemize}
+
+Those three factors give us the reversal (resting) potential: $E_{ion}$.
+
 \subsection{Basic electronics}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Ohm's Law: $V = I \cdot R$
@@ -34,25 +44,45 @@
 	\scalebox{0.7}{\includegraphics{current_voltage_01.png}}
 \end{figure}
 
-\subsection{Single-compartment model}
-\subsubsection{Assumptions, configuration}
-\begin{itemize}[noitemsep,nolistsep]
-	\item Assume isopotential and a sphere of membrane.
-	\item $I_e$ is an injected current.
-	\item $I_C$ is the capacitive current, discharging the membrane.
-	\item There is also a leak current $I_L = g_L(V-E_L)$.
+We say conductance is ohmic when we have passive properties, thus, $I = g \times V$.
+Different channel types have different resting potential. For example, AMPA/NMDA (excitatory) have $E_{rev} \approx 0 mV$. GABA A and GABA B (inhibitory) have $E_{rev} \approx -65 mV$ and $-90 mV$, respectively.
+
+Synapses are injecting (externeal) current.
+Assume dendrite are passive cables that just conduct current (this is a simplification, we are discarding, for instance, backprop action potential and dendrite computation.). This way, we have three models:
+\begin{itemize}
+\item Single compartment model: voltage has only temporal dependency $V = V(t)$.
+\item Cable equation: depends on time and location (analytical solutions) $V = V(x,t)$.
+\item Multicompartment model: (numerical solutions) $V = V(x,t)$.
 \end{itemize}
 
-\subsubsection{Membrane as electrical circuit}
+Those approaches offer a trade-of between realism and complexity.
+
+\subsection{Single-compartment model}
+
+\paragraph{Assumptions, configuration}
 \begin{itemize}[noitemsep,nolistsep]
-	\item $I_e = I_L + I_C$ and $I_L=g_L(V-E_L)$
-	\item $C\frac{dV}{dt} = I_C$
-	\item $V(t) = V_\infty+(V(0)-V_\infty)e^{-\frac{t}{\tau_m}}$
-	\item $V_\infty = E_L + R_LI_e$
-	\item Membrane time-constant: $\tau_m = R_LC$
+	\item Assume isopotential $V = V(t)$: holds locally
+	\item Spherical membrane.
+	\item $I_e$ is an injected current.
+	\item $I_C$ is the capacitive current, charges the membrane.
+	\item There is also a leak current $I_m = g_m(V-E_R)$.
+	\item $[ion]_{in} = [ion]_{out} \rightarrow V_{rest} = 0$, equivalent to $v(t) = V(t) - E_R$
+\end{itemize}
+
+\paragraph{Membrane as electrical circuit}
+
+At $t = 0$ an external current arrives, the membrane is charged and some current leak. At $t > 0$, $I_e > I_m$, i.e., the injected current is bigger than the leak current (some current is charging the membrane). At $t = \infty$,  we reach the equilibreium, $I_e = I_m$ and $I_C$ = 0, with the membrane completely charged, all the current that enters, leave.
+
+\begin{itemize}[noitemsep,nolistsep]
+	\item $I_e  - I_m = I_C$ and $I_m=g_m(V-E_R)$
+	\item $C = \frac{Q}{V} \rightarrow CV = Q \rightarrow C\frac{dV}{dt} = \frac{dQ}{dt} = I_C$
+	\item $I_e - gm \times v(t) = C_m \times \frac{dV(t)}{dt}$
+	\item Membrane time-constant: $\tau_m = R_m \times C_m$
+	\subitem depends on the resistances and the capacitors. Usual range from 10-100 ms.
 	\item Larger current due to spatial summation.
 	\item Less depolarization with small resistance (larger area).
 \end{itemize}
+
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.3\textwidth}
@@ -64,13 +94,29 @@
 		\centering
 		\includegraphics[width=\textwidth]{membrane_circuit_02.png}
 	\end{subfigure}
+	\caption{$R_L = R_m$, $E_L = E_m$, $g_L = g_m$, $I_L = I_m$}
 \end{figure}
 
-\subsubsection{Input resistance}
-\begin{itemize}[noitemsep,nolistsep]
-	\item $A$ is the surface area of the membrane.
-	\item $R_L = \frac{r_L}{A}$
-\end{itemize}
+\subsubsection{Steady-state}
+$R_m$ as input resistance.
+
+$V_\infty = R_m \times I_e + E_m$: steady-state, i.e., voltage doesn't change anymore ($\frac{dV}{dt}=0$).
+
+$V_\infty$ increases if $R_m$ increases (less leak) or $I_e$ increases (more input)
+
+\paragraph{Consequences}
+Two neurons with the same concentration of channels, differing only regarding the size: the smaller neuron will have more resistance, thus, for the same amount of current ($I_e$) it will have smaller voltage change ($R_{small neuron} \rightarrow V^{small}_\infty$ and $R_{large neuron} \rightarrow V^{large}_\infty$). Thus, $R_m = \frac{r_m}{area}$.
+
+Two neurons, one myelinated and another unmyelinated. The myelinated has less resistance thus it needs less current input ($I_e$) to achieve the same voltage change.
+
+$V(t) = V_\infty+(V(0)-V_\infty)e^{-\frac{t}{\tau_m}}$
+
+
+\subsubsection{Time-dependency (several solutions)}
+$V(t) = E_m + R_m \times I_e + (V(0) - E_m - R_m \times I_e) \epsilon^{\frac{-t}{\tau_m}}$
+
+
+%=====here
 
 \subsection{Two ionic currents}
 \begin{itemize}[noitemsep,nolistsep]
