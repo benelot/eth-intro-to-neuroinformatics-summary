@@ -2,21 +2,68 @@
 \begin{document}
 
 %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-% Main Topics:  13.12.2018
+% Main Topics: Gradient Descent - 13.12.2018
 % Lecturer: Matthew Cook
 % author: Vanessa Leite - base document from benelot/eth-intro-to-neuroinformatics-summary
 
-\section{Feed-Forward Networks}
+\section{Gradient Descent}
+Consider $E = \sum(f_w(x) - y_i)^2$, we want to adjust $\vec{w}$ (weights of the network) to minimize $E$.
+
+$\frac{dE}{df} = \sum 2(f_{\vec{w}} (x) - y_i)$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{activation-functions.png}
+	\caption{left-most figure: $f_{w_0} (x) = \theta(wf + w...)$, $\frac{df}{dw} = 0 \rightarrow \theta$ is not a good threshold function. Using a new threshold function (center figure). Right figure: $\frac{df}{dw} = \theta\prime$.}
+\end{figure}
+
+In the visual pathway, from V1 to LGN there is a projection that is 10 times bigger then the feedfoward one. Instead of thinking about inputs and outputs, we can think about the state of the system and consider its dynamics.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{gradient-descent.png}
+	\label{fig:gradient-descent}
+	\caption{Only one unit is updated at a time. After updating C, the network achieves a stable state, i.e., updating any unit does not change its output.}
+\end{figure}
+
+\paragraph{Asynchronous updates} 
+Updating one unit at a time (in any order)
+\paragraph{Synchronous updates}
+Updating all units simultaneously
+
+With asynchronous updates, a Hopfield network is guaranteed to converge.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{convergence-asynchronous.png}
+\end{figure}
+
+Consider the sum of all weights between active units, using the model in Figure~\ref{fig:gradient-descent}. In the beggining A and D are active, the sum of the active weights is 1.
+
+Now, we look at B and we sum the weights of the active units linked to B (D and A), see the scheme on Figure~\ref{fig:sum-weights}. The sum of active weights for B is ($10 - 3 = 7 >= 0$). If the sum $\geq 0$ we put the unit on the top part (unit active), otherwise we put the unit on the bottom (unit inactive).
+
+If B becomes active, the sum increases (sum = 1 + 7). If B becomes inactive, the sum does not change (sum = 1).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{sum-weights-active-units.png}
+	\label{fig:sum-weights}
+\end{figure}
+
+When we update a unit and change its value (active or inactive), then the sum increases or stays the same (if we are making units active). When we make units inactive, the sum doesnt change.
+
+\subsection{Feed-Forward Networks}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Multiple layers of neurons with a certain number of inputs and outputs.
 	\item Every laxer of nodes feeds the next layer with inputs.
 	\item There is an input and an output layer with hidden layers in between.
 \end{itemize}
 \begin{figure}[H]
+	\centering
 	\includegraphics[width=0.25\textwidth]{Feed_forward_neural_net.png}
 \end{figure}
 
-\subsection{Backpropagation and Error function}
+\subsubsection{Backpropagation and Error function}
 \begin{itemize}[noitemsep,nolistsep]
 	\item The inputs and desired outputs are given as $S=\{(x,d)^1,\ldots,(x,d)^l\}$.
 	\item The error function is given as $E(S) = \sum_i\frac{1}{2}||y(x^i)-d^i||^2$.
@@ -31,22 +78,22 @@
 	\item The partial derivative of the error $E$ term in relation to the weight $w$ to be adjusted can be added to the weight in order to learn. An additional weighting factor can be added.
 \end{itemize}
 
-\section{Signal Propagation in a Network}
-\subsection{Avalanche Model}
+\subsection{Signal Propagation in a Network}
+\subsubsection{Avalanche Model}
 \begin{itemize}[noitemsep,nolistsep]
 	\item For example needed with sensory neurons, as smalls ignals have to be amplified in order to be detectable by the superior areas.
 	\item No recurrent connections or risk of positive feedback with risk of explosion.
 	\item $(pn)^2$ active neurons per layer. $p$ is a probability and $n$ is the number of neurons that every next layer has more than the previous ones. One neuron from the last layer is connected with $n$ from the next one.
 \end{itemize}
 
-\subsection{Synfire Chain}
+\subsubsection{Synfire Chain}
 \begin{itemize}[noitemsep,nolistsep]
 	\item The synfire chain is a feedforward structure.
 	\item Synchrony is the most important factor for the transmission of the signal.
 	\item Noise is important: The chain is usually embedded in a larger network to transmit information. Introducing noise avoids that large-scale synchronization of neuronal firing contaminates the whole network.
 \end{itemize}
 
-\subsection{Divergence, convergence}
+\subsubsection{Divergence, convergence}
 \begin{itemize}[noitemsep,nolistsep]
 	\item A connection is said to be converging if a neuron receives input from several other neurons.
 	\item A connection is said to be diverging if a neuron projects to several other neurons.
