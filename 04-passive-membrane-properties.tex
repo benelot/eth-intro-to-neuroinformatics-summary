@@ -44,7 +44,7 @@ Those three factors give us the reversal (resting) potential: $E_{ion}$.
 	\scalebox{0.7}{\includegraphics{current_voltage_01.png}}
 \end{figure}
 
-We say conductance is ohmic when we have passive properties, thus, $I = g \times V$.
+We say conductance is ohmic when we have passive properties, thus, $I = g \cdot V$.
 Different channel types have different resting potential. For example, AMPA/NMDA (excitatory) have $E_{rev} \approx 0 mV$. GABA A and GABA B (inhibitory) have $E_{rev} \approx -65 mV$ and $-90 mV$, respectively.
 
 Synapses are injecting (externeal) current.
@@ -76,8 +76,8 @@ At $t = 0$ an external current arrives, the membrane is charged and some current
 \begin{itemize}[noitemsep,nolistsep]
 	\item $I_e  - I_m = I_C$ and $I_m=g_m(V-E_R)$
 	\item $C = \frac{Q}{V} \rightarrow CV = Q \rightarrow C\frac{dV}{dt} = \frac{dQ}{dt} = I_C$
-	\item $I_e - gm \times v(t) = C_m \times \frac{dV(t)}{dt}$
-	\item Membrane time-constant: $\tau_m = R_m \times C_m$
+	\item $I_e - gm \cdot v(t) = C_m \cdot \frac{dV(t)}{dt}$
+	\item Membrane time-constant: $\tau_m = R_m \cdot C_m$
 	\subitem depends on the resistances and the capacitors. Usual range from 10-100 ms.
 	\item Larger current due to spatial summation.
 	\item Less depolarization with small resistance (larger area).
@@ -100,7 +100,7 @@ At $t = 0$ an external current arrives, the membrane is charged and some current
 \subsubsection{Steady-state}
 $R_m$ as input resistance.
 
-$V_\infty = R_m \times I_e + E_m$: steady-state, i.e., voltage doesn't change anymore ($\frac{dV}{dt}=0$).
+$V_\infty = R_m \cdot I_e + E_m$: steady-state, i.e., voltage doesn't change anymore ($\frac{dV}{dt}=0$).
 
 $V_\infty$ increases if $R_m$ increases (less leak) or $I_e$ increases (more input)
 
@@ -109,33 +109,58 @@ Two neurons with the same concentration of channels, differing only regarding th
 
 Two neurons, one myelinated and another unmyelinated. The myelinated has less resistance thus it needs less current input ($I_e$) to achieve the same voltage change.
 
-$V(t) = V_\infty+(V(0)-V_\infty)e^{-\frac{t}{\tau_m}}$
+\subsubsection{Time-dependency}
+$\tau_m$ is the memory of cell $\approx 10$ to $100 ms$. Neuron forgets after $\tau$.
 
+\paragraph{several solutions}
+\[V(t) = E_m + R_m \cdot I_e + (V(0) - E_m - R_m \cdot I_e) \epsilon^{\frac{-t}{\tau_m}}\]
 
-\subsubsection{Time-dependency (several solutions)}
-$V(t) = E_m + R_m \times I_e + (V(0) - E_m - R_m \times I_e) \epsilon^{\frac{-t}{\tau_m}}$
+\paragraph{single solution}
+\[v(t) = v_\infty+(v(0)-v_\infty)e^{-\frac{t}{\tau_m}}\]
+for $v = V - E_m$
 
+\paragraph{Consequences}
+Consider $I_{e1} \rightarrow V_1(t)$ and $I_{e2} \rightarrow V_2(t)$, then, $V_1(t) + V_2(t)$ is result of $I_{e1} + I_{e2}$.
 
-%=====here
+\subparagraph{Spatial summation} 
+Simultaneous inputs ($\delta t = 0$) sum linearly.
+If $I_e \rightarrow k \cdot I_e$ then $V_\infty \rightarrow k \cdot V_\infty$.
 
-\subsection{Two ionic currents}
-\begin{itemize}[noitemsep,nolistsep]
-	\item Equilibrium at $I_L=I_S$
-	\item $V_\infty = \frac{g_LE_L+g_SE_S}{g_L+g_S}$
-	\item $\tau_m = \frac{C}{g_L+g_S}$
-\end{itemize}
+\subparagraph{Sequential inputs}
+Sequential inputs sum if $\delta t < \tau_m$.
+It is quite fuzzy, very different from computers.
+
+\subparagraph{Constant inputs}
+When achieve the threshold, it generates an action potential and right after, reset it. This is knowing as Integrate and Fire neuron.
+$r_{isi} = \frac{1}{t_{isi}} \approx \frac{E_m - V_{th} + R_m I_e}{\tau_m \cdot (V_{th} - V_{reset})}$
+
+\subparagraph{idealized synapse}
+if $I_e > 0$ then $V > E_m$ leading to EPSP (depolarization). 
+if $I_e < 0$ then $V < E_m$ leading to IPSP (hyperpolarization).
+
+\subsubsection{Equivalent electrical circuit}
+
+\paragraph{Neuron}
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{current_voltage_02.png}
-	\end{subfigure}%
-	~
-	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{membrane_circuit_03.png}
-	\end{subfigure}
+	\includegraphics[width=\textwidth]{electrical_circuit_neuron.png}
 \end{figure}
+
+\paragraph{Adding synapse}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{electrical_circuit_neuron_synapse.png}
+\end{figure}
+
+$I_C + I_m + I_s = I_e$
+$C_m \frac{dV}{dt} + g_m (V - E_m) + g_s(V - E_s) = I_e$
+
+%\begin{itemize}[noitemsep,nolistsep]
+%	\item Equilibrium at $I_L=I_S$
+%	\item $V_\infty = \frac{g_LE_L+g_SE_S}{g_L+g_S}$
+%	\item $\tau_m = \frac{C}{g_L+g_S}$
+%\end{itemize}
 
 \subsection{The cable equation}
 \[c_m\frac{\partial V}{\partial t} = \frac{1}{2ar_L}\frac{\partial}{\partial x}(a^2\frac{\partial V}{\partial x})-i_m+i_e\]
@@ -143,6 +168,7 @@ $V(t) = E_m + R_m \times I_e + (V(0) - E_m - R_m \times I_e) \epsilon^{\frac{-t}
 	\centering
 	\scalebox{0.7}{\includegraphics{cable_equation_01.png}}
 \end{figure}
+
 \subsubsection{Infinite cable}
 \begin{figure}[H]
 	\centering
