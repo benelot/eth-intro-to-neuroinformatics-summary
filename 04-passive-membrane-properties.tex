@@ -110,7 +110,7 @@ Two neurons with the same concentration of channels, differing only regarding th
 Two neurons, one myelinated and another unmyelinated. The myelinated has less resistance thus it needs less current input ($I_e$) to achieve the same voltage change.
 
 \subsubsection{Time-dependency}
-$\tau_m$ is the memory of cell $\approx 10$ to $100 ms$. Neuron forgets after $\tau$.
+$\tau_m$ is the memory of cell $\approx 10$ to $100 ms$. Neuron forgets after $\tau$. Longer memory requires few mechanisms, for example, charge in synapse or recurrency.
 
 \paragraph{several solutions}
 \[V(t) = E_m + R_m \cdot I_e + (V(0) - E_m - R_m \cdot I_e) \epsilon^{\frac{-t}{\tau_m}}\]
@@ -150,30 +150,160 @@ if $I_e < 0$ then $V < E_m$ leading to IPSP (hyperpolarization).
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{electrical_circuit_neuron_synapse.png}
+	\includegraphics[width=0.5\textwidth]{electrical_circuit_neuron_synapse.png}
 \end{figure}
 
 $I_C + I_m + I_s = I_e$
 $C_m \frac{dV}{dt} + g_m (V - E_m) + g_s(V - E_s) = I_e$
 
-%\begin{itemize}[noitemsep,nolistsep]
-%	\item Equilibrium at $I_L=I_S$
-%	\item $V_\infty = \frac{g_LE_L+g_SE_S}{g_L+g_S}$
+\begin{itemize}[noitemsep,nolistsep]
+	\item Equilibrium at $I_m=I_s$
+	\item $V_\infty = \frac{g_m \cdot E_m + g_s \cdot E_s + I_e}{g_m+g_s}$
+	\item For $g_s >> g_m$: $V_\infty = E_s + \frac{I_e}{g_s}$, thus the effect of $I_e$ is reduced: shunting inhibition
 %	\item $\tau_m = \frac{C}{g_L+g_S}$
-%\end{itemize}
+\end{itemize}
 
 \subsection{The cable equation}
+
+So far, ions flow (in $\rightarrow$ out) to achieve $E_{rest}$. But, what if $V = V(t) \neq E_{rest}$ most of the time?
+
+\paragraph{leak current}
+$\sum_{time} I_{leak} \approx 0$: balance of exc. and inh, no action potential
+\paragraph{synaptic current}
+$\sum_{time} |I_s| > 0$: depletes concentration gradients $\rightarrow$ needs pump (needs energy).
+
+\paragraph{Longitudinal current}
+
+In the cable equation we use the same variables as before but we need to express $I_L$: longitudinal current. Now we have a current that flows inside the membrane (for instance, left to right).
+
+\begin{figure}[H]
+	\centering
+	\scalebox{0.3}{\includegraphics{longitudinal-current.png}}
+	\caption{To start, let's consider a piece of cable of length $\delta x$. In this piece, we have a voltage drop $\Delta V$.}
+\end{figure}
+
+$R_L = \frac{r_L}{\pi a^2} \cdot \Delta x = \frac{r_L}{Area} \cdot \Delta x$.
+
+\begin{itemize}
+\item $r_L$ is a constant, a propertie of intracelullar medium.
+\item $\frac{1}{Area}$: resistances in parallel $\rightarrow$ $\frac{1}{R_{total}} = \sum \frac{1}{R} \rightarrow R_{total} = \frac{R}{N}$.
+\item $\Delta x$: in series $\rightarrow R_{total} = N \cdot R$
+\end{itemize}
+
+By Ohm's law: $\Delta V = R_L \cdot I_L = \frac{r_L}{\pi a^2} \Delta x I_L \rightarrow	(\Delta x \to 0) \frac{dV}{dx} x = - \frac{r_L}{\pi a^2} \cdot I_L(x)$. By definition, the sign is $-$: $\Delta V < 0$ for pos. current from $x \rightarrow dx + x$.
+
+\paragraph{Charge conservation}
+
+\begin{figure}[H]
+	\centering
+	\scalebox{0.3}{\includegraphics{charge-conservation.png}}
+\end{figure}
+
+In essence, $I_L(x + dx) = I_L(x) - I_m + I_e - I_c$, where:
+\begin{itemize}
+\item $I_c \approx \frac{\partial V}{\partial t}$
+\item $I_m \approx gm (V - E_r)$
+\item $I_L(x+dx) \approx \frac{\partial V}{\partial x}(x+dx)$
+\end{itemize}
+
+To derive cable equation:
+\begin{itemize}
+\item $I_m = 2 \pi a \cdot \Delta x \cdot i_m$
+\item $I_e = 2 \pi a \cdot \Delta x \cdot i_e$
+\subitem where $i_m$ and $i_e$ are current densities = current/Area
+\item $I_L = \frac{\pi a^2}{r_L} \frac{\partial V}{\partial x}$
+\item $I_c = 2 \pi a \Delta x C_m \frac{\partial V}{\partial t}$
+\end{itemize}
+
 \[c_m\frac{\partial V}{\partial t} = \frac{1}{2ar_L}\frac{\partial}{\partial x}(a^2\frac{\partial V}{\partial x})-i_m+i_e\]
+
 \begin{figure}[H]
 	\centering
 	\scalebox{0.7}{\includegraphics{cable_equation_01.png}}
 \end{figure}
 
-\subsubsection{Infinite cable}
+\paragraph{Note}
+\begin{itemize}
+\item $a$ need not to be continuous, i.e., $a = a(x)$.
+\item $i_m$ could be very complicated
+\item in general, there is no analytical solution
+\subitem but we can consider simple cases where solution exists
+\end{itemize}
+
+Assume $a$ is continuous, $i_m = \frac{V - E_r}{r_m}$, and define $v = V - E_r$:
+
+\[c_m\frac{\partial V}{\partial t} = \frac{a}{2r_L}\frac{\partial^2 v}{\partial x^2}- \frac{v}{r_m} + i_e\]
+
+
+\paragraph{Define}
+$\tau_m = r_m \cdot c_m$ (time constant) and $\lambda = \sqrt{\frac{a r_m}{2 r_L}}$ (length constant: "electrotonic length"), thus:
+
+\[\tau_m\frac{\partial V}{\partial t} = \lambda^2 \frac{\partial^2 v}{\partial x^2} - v + r_m i_e\]
+
+\subsubsection{Solution for simple cases}
+%\begin{figure}[H]
+%	\centering
+%	\scalebox{0.7}{\includegraphics{cable_equation_02.png}}
+%\end{figure}
+
 \begin{figure}[H]
 	\centering
-	\scalebox{0.7}{\includegraphics{cable_equation_02.png}}
+	\begin{subfigure}[b]{0.6\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{cable_equation_02.png}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{cable-equation-t.png}
+	\end{subfigure}
+	\caption{Left: constant current by location; center: pulse of current by location; right: pulse of current by time.}
+	\label{fig:cable-equation}
 \end{figure}
+
+\paragraph{Infinite cable, constant $I_e$ (not time varying) and steady state solution $V=V(x)$ for $t \to \infty$}
+for $\frac{\partial V}{\partial t} = 0 \rightarrow V_\infty (x) = \frac{I_e R_\lambda}{2}\exp(-\frac{|x|}{\lambda})$
+
+\subparagraph{Consequences}
+\begin{itemize}
+\item  If $I_e$ injected at $x = 0$ in dendrite (e.g., through synapse)
+\subitem $V(x)$ decays exponentially with distance
+\subitem $V(x)$ reduced to $\frac{1}{e}$ at $x = \lambda$ compared to $V(x = 0)$
+\item dendrites have effective length close to $\lambda$ (or in that order of magnitude)
+\subitem strong alternation of $V(x)$ from distal dendrites to soma.
+\item increase in $\lambda$:
+\subitem $r_m$ increases: less leak current $I_m$
+\subitem $r_L$ decreases: less intracelullar resistance
+\subitem $a$ increases: larger cable
+\end{itemize}
+
+\paragraph{Finite cable - dendrites}
+length of the cable decreases $\rightarrow$ closer to isopotential.
+
+\paragraph{Infinite cable, pulse of input current ($I_e = \delta x \delta t$)}
+At each time $t$, $V(x,t)$ is a gaussian in $x$.
+The width of the gaussian is $r  = \lambda \sqrt{\frac{t}{\tau_m}}$, where $\lambda$ is a spatial scale and $\tau_m$ is a temporal scale.
+The area of the gaussian is given approximately by $e^\frac{-t}{\tau_m}$. The area decrease with time, some charge is lost through $i_m$.
+
+Ploting $V$ as a function of time (~\ref{fig:cable-equation}) for different $x$:
+\begin{itemize}
+\item time of max $V$ changes with $x$
+\item width of peak changes with $x$
+\item by looking at the peak and the time occurrence of the peak at the soma one can infer about how far from the dendrite the current was injected.
+\item "speed" of the bump: $V_{bump} \approx 2 \cdot \frac{\lambda}{\tau_m}$.
+\subitem this approximation also holds for action potentials: $V_{ap} \approx 0.25 -100 mV$
+\subitem if $\lambda$ increases, $V$ goes far, thus $V_{bump}$ increases
+\subitem if $\tau_m$ increases, $V$ changes slowly, thus $V_{bump}$ decreases
+\end{itemize}
+
+How to increase $V_{bump}$?
+\begin{itemize}
+\item by increasing $a$: giant axon
+\item myelin: $r_m$ increases and $c_m$ decreases.
+\end{itemize}
+
+$V_{bump} = \sqrt{\frac{1}{2 r_m r_L}} \frac{1}{c_m}$
+
 \begin{itemize}[noitemsep,nolistsep]
 	\item $v(x) = \frac{I_eR_\lambda}{2}\exp(-\frac{|x|}{\lambda})$
 	\item $R_\lambda=\frac{r_m}{2\pi a\lambda} = \frac{r_L\lambda}{\pi a^2}$
