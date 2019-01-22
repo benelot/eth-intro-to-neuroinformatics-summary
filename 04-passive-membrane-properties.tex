@@ -31,8 +31,8 @@ Those three factors give us the reversal (resting) potential: $E_{ion}$.
 	\item Cell membrane is equal to capacitor.
 	\item Conductivity $S=\frac{1}{R}$.
 	\item Ion resistance is $R = V/I$.
-	\item Ion conductivity is $\gamma = g_L = I/V$.
-	\item Outward current for an ion is $I_m=g_L(V-E_L)$.
+	\item Ion conductivity is $\gamma = g_m = I/V$.
+	\item Outward current for an ion is $I_m=g_m(V-E_m)$.
 	\item If the concentration of an ion on one side is raised (with a corresponding molecule of opposite charge) and the membrane is permeable for this ion, then the side which has a higher concentration gets more negative, because the ions go to the other side, leaving behind uncompensated negative charges.
 \end{itemize}
 \begin{figure}[H]
@@ -141,9 +141,11 @@ if $I_e < 0$ then $V < E_m$ leading to IPSP (hyperpolarization).
 \subsubsection{Equivalent electrical circuit}
 
 \paragraph{Neuron}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{electrical_circuit_neuron.png}
+	\caption{Equivalent electrical circuit for a neuron.}
 \end{figure}
 
 \paragraph{Adding synapse}
@@ -151,15 +153,17 @@ if $I_e < 0$ then $V < E_m$ leading to IPSP (hyperpolarization).
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{electrical_circuit_neuron_synapse.png}
+	\caption{Equivalent electrical circuit for a neuron including synapse. The conductance of a synapse ($g_s$) is variable and depends on presence of neurotransmitters.}
 \end{figure}
 
-$I_C + I_m + I_s = I_e$
-$C_m \frac{dV}{dt} + g_m (V - E_m) + g_s(V - E_s) = I_e$
+$I_e = I_s + I_m + I_c \rightarrow I_e = C_m \frac{dV}{dt} + g_m (V - E_m) + g_s(V - E_s)$
+In equilibrium $I_c = 0 \rightarrow I_e = g_s(V - E_s) + g_m (V - E_m) \rightarrow V_\infty = \frac{g_m \cdot E_m + g_s \cdot E_s + I_e}{g_m+g_s}$
 
 \begin{itemize}[noitemsep,nolistsep]
 	\item Equilibrium at $I_m=I_s$
 	\item $V_\infty = \frac{g_m \cdot E_m + g_s \cdot E_s + I_e}{g_m+g_s}$
-	\item For $g_s >> g_m$: $V_\infty = E_s + \frac{I_e}{g_s}$, thus the effect of $I_e$ is reduced: shunting inhibition
+	\item For $g_s >> g_m$ (synapse open): $V_\infty = E_s + \frac{I_e}{g_s}$, thus the effect of $I_e$ is reduced: shunting inhibition ($V_{eq} \approx E_s$).
+	\item For $g_s << g_m$ (synapse closed): $V_{eq} \approx E_m$.
 %	\item $\tau_m = \frac{C}{g_L+g_S}$
 \end{itemize}
 
@@ -202,7 +206,7 @@ By Ohm's law: $\Delta V = R_L \cdot I_L = \frac{r_L}{\pi a^2} \Delta x I_L \righ
 In essence, $I_L(x + dx) = I_L(x) - I_m + I_e - I_c$, where:
 \begin{itemize}
 \item $I_c \approx \frac{\partial V}{\partial t}$
-\item $I_m \approx gm (V - E_r)$
+\item $I_m \approx gm (V - E_m)$
 \item $I_L(x+dx) \approx \frac{\partial V}{\partial x}(x+dx)$
 \end{itemize}
 
@@ -325,6 +329,8 @@ $V_{bump} = \sqrt{\frac{1}{2 r_m r_L}} \frac{1}{c_m}$
 	\item A neuron can be represented by a variable number of discrete compartments.
 	\item Compartments represent a region, each with a single membrane potential.
 	\item The connections between compartments have resistive couplings.
+	\item The basic model is the single compartment (isopotential)
+	\item There is also a model for selective ion channels: drive $V$ towards reversal potential ($E$) for that channel type
 \end{itemize}
 
 \subsection{Hodgkin-Huxley Equations}
