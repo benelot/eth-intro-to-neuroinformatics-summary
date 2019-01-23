@@ -333,29 +333,4 @@ $V_{bump} = \sqrt{\frac{1}{2 r_m r_L}} \frac{1}{c_m}$
 	\item There is also a model for selective ion channels: drive $V$ towards reversal potential ($E$) for that channel type
 \end{itemize}
 
-\subsection{Hodgkin-Huxley Equations}
-\begin{itemize}[noitemsep,nolistsep]
-	\item Model that describes how action potentials in neurons are initiated and propagated.
-	\item $n$ and $m$ are probabilities for a gate to be open.
-	\item $h$ is the probability that an open channel is not blocked.
-	\item The gating variables have a voltage dependence.
-	\item $\bar{g}$ values are the maximum conductance possible.
-	\item There is no inactivation for potassium, only for sodium.
-	\item The membrane does not get locked at positive values.
-	\item $\bar{g}_L$ stands for some generic leak.
-	\item The functions $n_\infty(V)$, $m_\infty(V)$ and $h_\infty(V)$ determine whether gates serve to activate channels (with depolarization) or inactivate the channel (close with depolarization). $\tau_m$, $\tau_h$ and $\tau_n$ are time constants.
-\end{itemize}
-\[C\frac{dV}{dt}+\bar{g}_Kn^4(V-V_K)+\bar{g}_{Na}m^3h(V-V_{Na})+\bar{g}_L(V-V_L)+I_{inj}=0\]
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{5_8.jpg}
-\end{figure} 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=1.0]{depolarization_01.png}
-\end{figure} 
-
-
-
 \end{document}
