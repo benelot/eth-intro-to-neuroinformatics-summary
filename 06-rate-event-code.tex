@@ -8,7 +8,7 @@
 
 \section{Neural Coding}
 
-The problem of neural coding is to elucidate "the representation and transformation of information in the nervous system".
+The problem of neural coding is to elucidate ``the representation and transformation of information in the nervous system".
 
 \paragraph{Correspondence} a code is the correspondence between two domains. This mean that one domain (for instance, visual signal) can be specified (encoded) by another (for instance, spike trains), this way one can, theoretically, reconstruct  the original message from the encoded message with some accuracy (decoding).
 
@@ -23,6 +23,7 @@ The problem of neural coding is to elucidate "the representation and transformat
 By recording neuronal responses in the cat visual cortex, we identify that the visual cortex encondes the orientation of a moving stimulus and has a orientation specific organization.
 In rats, spatial information is coded via hippocampal place cells.
 
+\paragraph{General}
 
 \begin{itemize}[noitemsep,nolistsep]
 	\item Information is encoded by firing of single neurons and firing of populations of neurons.
@@ -31,6 +32,7 @@ In rats, spatial information is coded via hippocampal place cells.
 	\item Spatial/temporal resolution of different measurement techniques tell us about the neural code.
 	\item It is an issue to record from many neurons simultaneously.
 	\item There is not much information in the slope of a spike.
+	\item By recording neuronal responses from a stimuli, we can ``see" how the brain encodes the stimuli.
 \end{itemize}
 
 \begin{figure}[H]
@@ -138,6 +140,7 @@ Temporal coding may refer to several quite different ideas:
 	\item Allows accurate reconstruction of the signal, also interpolated between peaks.
 	\item Sparse coding: Only few cells are activated.
 	\item Retina as an example: Different cells for different light wavelengths.
+	\item a neuron encodes a stimulus, a neuronal population encodes behavior.
 \end{itemize}
 
 \subsubsection{Population Vector Code}
@@ -146,6 +149,17 @@ Temporal coding may refer to several quite different ideas:
 	\item Encoded direction (arrow) corresponds to vectorial addition, weighted by firing rate.
 	\item Interesting for brain-computer interfaces.
 \end{itemize}
+
+\subsubsection{Measuring Population Activity in vivo}
+\begin{itemize}
+\item calcium imaging
+\item fmri
+\end{itemize}
+
+\subsubsection{Taking multiple stimuli into account}
+Repeatedly sample responses to a variety of stimuli so that we can characterize what feature combination triggers a spike or a behavior.
+\[ P(\text{response} | \text{stimulus}) = P(\text{response} | s_1, s_2, s_3, \dots , s_n ) \].
+After collecting data, if we don't have any labels for the stimuli, we use an unsupervised/clustering approach, otherwise a supervised approach to identify the characteristics that trigger a behavior.
 
 \subsection{Neuronal Event Codes}
 \subsubsection{Time-to-first Spike Codes}
