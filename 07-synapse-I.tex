@@ -27,11 +27,11 @@
  	\label{fig:vagus-experiment}
 \end{figure} 
 
-\subsection{Soup vs Spark - Chemical or Electrical?}
+\subsubsection{Soup vs Spark - Chemical or Electrical?}
 Evidence for chemical transmission at the neuro muscular junction was widely accepted by neuropharmacologists. However, some physiologists thought that certain aspects were too fast to be mediated chemically.
 Chemical synapses is the predominant way of communication between neurons, but there are some electrical synapses.
 
-\subsubsection{Chemical transmission}
+\subsection{Chemical transmission}
 Communication between cells which involves the rapid release and diffusion of a substance to another cell where it binds to a receptor (at a localized site) resulting in a change in the postsynaptic cells properties.
 
 \begin{itemize}
@@ -49,7 +49,7 @@ Communication between cells which involves the rapid release and diffusion of a 
 \item Can change sign by release of inhibitory transmitter.
 \end{itemize}
 
-\paragraph{Steps of transmission}
+\subsubsection{Steps of transmission}
 \begin{itemize}
 \item Action potential generated and reach the axon of presynaptic cell
 \item Opening of voltage gate $Ca^{2+}$ channels
@@ -58,7 +58,23 @@ Communication between cells which involves the rapid release and diffusion of a 
 \item Activation of post-synaptic cell
 \end{itemize}
 
-\subsection{Synapse properties}
+\paragraph{Model of synaptic transmission}
+Neurotransmitter is released in discrete packages, or quanta.
+Quantal size: size of individual quanta.
+Quantal content: number of quanta released.
+
+\begin{itemize}
+\item One package of neurotransmitter = one quantum
+\item AP transiently increases the probability of releasing NX quanta.
+\item Several quanta are available to be released
+\item Each quantum give approximately the same postsynaptic response: quantal amplitude.
+\item the average number of quanta released: $m = np$
+\subitem $n$ is the number of quanta available for release
+\subitem $p$ their average release probability 
+\item Probability that $x$ units successfully contribute is given by: $P(success = x) = \binom{n}{x} p^x (1-p)^x$
+\end{itemize}
+
+\subsubsection{Synapse properties}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Only vesicles which are already on the presynaptic membrane (docked) will be released after the AP, not all of them.
 	\item One single synapse produces only a small potential. More are needed for an actual action potential.
@@ -72,7 +88,8 @@ Communication between cells which involves the rapid release and diffusion of a 
 	\item Four types of synapse: axodendritic, axosomatic, axoaxonic and dendrodendritic.
 \end{itemize}
 
-\subsection{Synaptic mechanism}
+\subsubsection{Synaptic mechanism}
+
 \begin{enumerate}[noitemsep,nolistsep]
 	\item Synthesis: Building blocks of transmitter substance gets to the terminal where neurotransmitter is synthesized and packed into vesicles.
 	\item Release: In response to an AP, the transmitter is released, across the membrane, by exocytosis. The presynapse has voltage-gated $Ca^{2+}$ channels, which will cause an inflow and trigger vesicle fusion (exocytosis).
@@ -80,7 +97,10 @@ Communication between cells which involves the rapid release and diffusion of a 
 	\item Inactivation: The transmitter is taken back or inactivated in the synaptic cleft.
 \end{enumerate}
 
-\subsection{Receptor types}
+
+\subsubsection{Receptor types}
+Neurotransmitters cross synaptic-cleft and can bind to two types of receptors: ionotropic (ligand-gated ion channels) or metabotropic (g-protein coupled receptors).
+
 \begin{tabular}{|l|l|}
 	\hline
 	\textbf{Ionotropic receptor} & \textbf{Metabotropic receptor}\\\hline
@@ -91,7 +111,7 @@ Communication between cells which involves the rapid release and diffusion of a 
 	Postsynaptic, in general & Pre- and postsynaptic\\\hline
 \end{tabular}
 
-\subsection{Synapse types}
+\subsubsection{Synapse types}
 \begin{tabular}{|l|l|}
 	\hline
 	\textbf{Electrical synapse} & \textbf{Chemical synapse}\\\hline
@@ -105,7 +125,7 @@ Communication between cells which involves the rapid release and diffusion of a 
 	Synchronized activity & Specific: point to point communication\\\hline
 \end{tabular}
 
-\subsection{Receptor overview}
+\subsubsection{Receptor overview}
 \begin{tabular}{|l|l|l|l|l|}
 	\hline
 	\textbf{Receptor} & \textbf{Transmitter} & \textbf{Ions} & \textbf{Approx. $E_{rev}$} & \textbf{Agonist}\\\hline
@@ -134,7 +154,7 @@ Communication between cells which involves the rapid release and diffusion of a 
  	\includegraphics[scale=0.5]{glutamate-neuron.png}
 \end{figure} 
 
-\subsection{Glutamate receptors}
+\subsubsection{Glutamate receptors}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Glutamate enables both synapses, but NMDA is voltage dependent, while AMPA is not.
 	\item The receptors end up being conductive for $Na^+$ and $K^+$, as well as $Ca^{2+}$. 10 times more for $Ca^{2+}$ than the others.
@@ -142,30 +162,47 @@ Communication between cells which involves the rapid release and diffusion of a 
 	\item $Ca^{2+}$ inflow causes a calcium cascade: Phosphorylation ($PO_4$) of the channel proteines opens channels even more.
 \end{itemize}
 
-\subsubsection{NMDA}
+\paragraph{NMDA}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Voltage dependent.
 	\item The channel is blocked by $Mg^+$ below voltages of $-40\,mV$.
 	\item The block gets pushed out with more positive voltage.
 \end{itemize}
 
-\subsubsection{AMPA}
+\paragraph{AMPA}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Voltage independent.
 \end{itemize}
 
-\subsection{GABA}
+\subsubsection{GABA}
 \begin{itemize}[noitemsep,nolistsep]
 	\item GABA-A is for $Cl^-$, ionotropic (fast), $-65\,mV$
 	\item GABA-B is for $K^+$, metabotropic (slow), $-90\,mV$
 \end{itemize}
 
-\subsection{Neuromodulators}
+\subsubsection{Neuromodulators}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Neurotransmitter that is not reabsorbed by the pre-synaptic neuron or broken down into a metabolite.
 	\item These end up a longer time in the cerebrospinal fluid, modulating the activity of several other neurons in the brain.
 	\item For example norepinephrine, dopamine, serotonine.
 \end{itemize}
 
+\subsection{Electrical transmission}
+Electrical synapses are built for speed. Electrical coupling is a way to synchronize neurons with one another (for instance, in heart muscles). In electrical synapses, the postsynaptic neuron starts to change its membrane potential almost instantaneously with the presynaptic neuron.
+
+Rod photoreceptors are connected by electrical synapses.
+
+\begin{itemize}
+\item simple primitive system, keep firing without refractoring period
+\item often symmetrical, bidirectional
+\item dendrite gap junctions (connexins)
+\item very fast, no synaptic delays
+\item $Ca^{2+}$ independent
+\item temperature insensitive
+\item large synapse
+\item no amplification of the signal
+\item limited functions, usually excitatory
+\item synchronized activity
+\end{itemize}
 
 \end{document}
