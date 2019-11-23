@@ -2,14 +2,32 @@
 \begin{document}
 
 %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-% Main Topics: Digital logic, Linear Threshold Unit/Gates 29.11.2018
+% Main Topics: Digital logic, Linear Threshold Unit/Gates, Introduction to Perceptron Learning Algorithm 21.11.2019
 % Lecturer: Matthew Cook
-% author: Vanessa Leite - base document from benelot/eth-intro-to-neuroinformatics-summary
+% author: Vanessa Leite
 
-\section{Digital Logic}
+\section{Introduction to Perceptron Learning Algorithm}
 
 We don't learn how the brain works by studying neurons, the same way that just by studying transistors we do not know how computer works.
-We know the brain does processing but we don't know how it works. The bottleneck to understand brain is probably that we do not have the right abstractions to understand it.
+We know the brain does processing but we don't know how it works.
+The bottleneck to understand brain is probably that we do not have the right abstractions to understand it.
+
+McCulloch and Pitts developed a computational model of a biological neuron in 1943.
+The McCulloch-Pitts neural model is also known as linear threshold unit/gate. It is a neuron with a set of inputs and one output.
+
+\subsection{McCulloch and Pitts neurons vs biological neurons}
+\textbf{similarities:}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Both can be active or inactive.
+	\item The input/output is directed.
+	\item The activation of a neuron is dependent on a weighted function of other neurons.
+\end{itemize}
+\textbf{differences:}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Real neurons exist in continuous time, whereas McCulloch-Pitts neurons operate in discrete time.
+	\item Real neurons have degrees of activation, not just on/off.
+	\item The activation as a function of the inputs of real neuron is typically not linear or threshold linear.
+\end{itemize}
 
 \subsection{(Basic) Digital Logic}
 
@@ -25,19 +43,22 @@ Circuits are a combination of gates.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.4\textwidth]{circuit.png}
-	\label{fig:circuit-gates}
 	\caption{A basic circuit implementing an OR gate.}
+	\label{fig:circuit-gates}
 \end{figure}
 
-The circuit in Fig~\ref{fig:circuit-gates} produces the same as an OR gate. With NOT and AND gates we can build an OR gate, but with AND and OR we can't build a NOT gate.
+The circuit in Figure~\ref{fig:circuit-gates} produces the same as an OR gate.
+With NOT and AND gates we can build an OR gate, but with AND and OR we can't build a NOT gate.
 
 \paragraph{XOR gates = exclusive OR}
-They are exclusive in the case of two inputs. For more than two, XOR counts the number of "active" ($1$'s) inputs and returns $0$ for even and $1$ for odd.
+They are exclusive in the case of two inputs.
+For more than two, XOR counts the number of "active" ($1$'s) inputs and returns $0$ for even and $1$ for odd.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{gatexor.png}
 	\caption{XOR gate built out other gates. Image from https://blog.digilentinc.com/building-logic-gates-with-transistors/}
+	\label{fig:xor-gates}
 \end{figure}
 
 A table with $N$ inputs has $2^N$ rows.
@@ -63,11 +84,41 @@ A table with $N$ inputs has $2^N$ rows.
 	\includegraphics[width=0.3\textwidth]{perceptron.png}
 \end{figure}
 
-This model represents a neuron with inputs $x$ and one output $y$. Weights $w$ determine the influence of the inputs. $f$ is a function determining the output: if the influence of all the inputs combined cross a threshold, then the neuron become active. Active state: $\sum_i(w_i\cdot x_i) \geq \theta$. Otherwise, the neuron is inactive.
+This model represents a neuron with inputs $x$ and one output $y$.
+Weights $w$ determine the influence of the inputs.
+$f$ is a function determining the output: if the influence of all the inputs combined cross a threshold, then the neuron become active.
+Active state: $\sum_i(w_i\cdot x_i) \geq \theta$.
+Otherwise, the neuron is inactive.
 
 We add a bias input as $-\theta$ so that $w_0+\sum_i(w_i\cdot x_i)\geq0$ activates the neuron.
+As a digital abstraction, we consider that the activity of a neuron can be described as $0$ or $1$. Where $0$ is inactive and $1$ is active.
 
-This model can create AND/OR/NOT-Gates. Not the XOR/XNOR-Gate however.
+Neurons can learn by adjusting their weights, they can have thousand of inputs.
+For a desired behavior there are many possible weight vectors that can work (if any can work). 
+This model can create AND/OR/NOT-Gates.
+
+\subsubsection{Threshold function}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.2\textwidth]{simplified-LT.png}
+	\caption{Same unit in two representations}
+	\label{fig:simplified-LT}
+\end{figure}
+
+Both units in Figure~\ref{fig:simplified-LT} are the same.
+The one in the bottom is a simplified version, where the inputs $x$ and the weights $w$ are represented as vectors.
+The bias term is added to the weight vector and a new input $x_0$ is added with a fixed value of $1$.\\
+$f(x_1, x_2, x_3) = \theta(w_1 \times x_1 + w_2 \times x_2 + w_3 \times x_3 + w_0)$\\
+$f(\vec{x}) = \theta(\vec{w} \times \vec{x} + w_0)$\\
+
+\[
+  \theta(x)=
+  \begin{cases}
+     0 \text{, if } x < 0\\
+     1 \text{, if } x \geq 0\\
+  \end{cases}
+\]
 
 \subsubsection{XOR impossibility with LT/Perceptrons}
 To compute XOR with LT, it is required that:
@@ -82,40 +133,62 @@ To compute XOR with LT, it is required that:
 This causes a contradiction because $x_1 \times w_1 + x_2 \times w_2 + 2 \times w_0 < 0$ and $x_1 \times w_1 + x_2 \times w_2 + 2 \times w_0 \geq 0$ when adding up the constraints.
 
 XOR is not a linear combination of the inputs.
+Although these units can't model the XOR, they are still powerful.
+You can't calculate it with a single unit, but with a combination of them, it is possible.
+The same way, one cannot compute the XOR function using one single OR, NOT or AND gate.
+In fact, we need three gates\footnote{when couting gates, we do not count NOT gates} to compute the XOR function, see Figure~\ref{fig:xor-gates}.
 
-\subsection{McCulloch-Pitts Neuron / Perceptron}
-\textbf{Similarities to real neurons:}
+In the end, these model of neuron units are more efficient than digital logic gates, however, these new analog units run into precision problems.
+For implementing the XOR function, McCulloch and Pitts units allow exponentially smaller circuits.
+
+\subsection{Perceptron Learning Algorithm}
+
+\begin{table}[H]
+\begin{tabular}{cc|c}
+x1 & x2 & f \\ 
+\hline
+0  & 0  & 1 \\
+0  & 1  & 0 \\
+1  & 0  & 1 \\
+1  & 1  & 1 \\ 
+\end{tabular}
+\end{table}
+
+Can we set $w_0, w_1, w_2$ so that this unit computes the above $f$?
+We start with random weights, let's say all zero.
+With this weights, doesn't matter the values of $x_1$ and $x_2$, the result will always be 1.
+And for the second case ($x_1 = 0, x_2 = 1, f = 0$) we produce a wrong output.
+
+So, we reduce $w_0$ and $w_2$ because they contribute to the sum ($0 \times w_1 + 1 \times w_2 + w_0$).
+We reduce the weights if the sum should go down and we increase the weights if the sum should go up. We iterate this step until convergence.
+
+We can consider the bias as a weight with input value always one ($x_0 = 1$), thus, we can write:
+
+\[ f(\vec{x}) = \theta(\vec{w} \times \vec{x} + w_0) = \theta(\vec{w} \times \vec{x}) \]
+
+\paragraph{Recall} $\vec{w} \times \vec{x} = |\vec{w}| \times |\vec{x}| \times \cos \alpha$.
+So, if $\alpha < 90\deg$, $\vec{w} \times \vec{x}$ is greather than zero and if $\alpha > 90\deg$, $\vec{w} \times \vec{x} < 0$.
+
+This way, we compute a similarity between the weight vector and the input vector.
+
+The weights of the perceptron units can be seen as the components of a normal vector to the hyperplane that separates the classes ($1$ and $0$).
+In  fact, the  length of the normal vector doesnt matter, we are looking for its direction.
+
+\paragraph{Convergence}
+Suppose there is a solution $\vec{w}^*$, i.e., the data is linearly separable.
+Pick any solution $\vec{w}$, for instance, starting with all weights as zero, if this solution already satisfies our conditions, we are done.
+Otherwise, we pick an arbitrary missclassified point and update $\vec{w}$.
+Each step makes progress in the $\vec{w}^*$ direction, because additions to $\vec{w}$ are always $\leq 90\deg$.
+The magnitude of $\vec{w}^* \times \vec{w}$ increases linearly.
+Since $\vec{w}^*$ doesn't change, there is a maximum growth from $\vec{w}$ to achieve the solution.
+By contradiction in the limit of infinite steps, we can say that the algorithm converges, i.e., if there is a solution and it takes infinite steps to achieve it, this is a contradiction.
+
+\paragraph{Algorithm}
 \begin{itemize}[noitemsep,nolistsep]
-	\item Both can be active or inactive.
-	\item The input/output is directed.
-	\item The activation of a neuron is dependent on a weighted function of other neurons.
+	\item Choose random initial weights.
+	\item Calculate output for given input.
+	\item If the output is not the expected value, then $e=d-c$, where $d$ is the desired output and $c$ the current output.
+	\item Change the weight of inputs and bias by $\Delta w_i=e\cdot\alpha\cdot x_i$. For the bias, always use $x=1$.
 \end{itemize}
-\textbf{Differences to real neurons:}
-\begin{itemize}[noitemsep,nolistsep]
-	\item Real neurons exist in continuous time, whereas McCulloch-Pitts neurons operate in discrete time.
-	\item Real neurons have degrees of activation, not just on/off.
-	\item The activation as a function of the inputs of real neuron is typically not linear or threshold linear.
-\end{itemize}
-
-\subsection{Threshold function}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.2\textwidth]{simplified-LT.png}
-	\caption{Same unit in two representations}
-	\label{fig:simplified-LT}
-\end{figure}
-
-Both units in Fig~\ref{fig:simplified-LT} are the same. The one in the bottom is a simplified version, where the inputs $x$ and the weights $w$ are represented as vectors. The bias term is added to the weight vector and a new input $x_0$ is added with a fixed value of $1$.\\
-$f(x_1, x_2, x_3) = \theta(w_1 \times x_1 + w_2 \times x_2 + w_3 \times x_3 + w_0)$\\
-$f(\vec{x}) = \theta(\vec{w} \times \vec{x} + w_0)$\\
-
-\[
-  \theta(x)=
-  \begin{cases}
-     0 \text{, if } x < 0\\
-     1 \text{, if } x \geq 0\\
-  \end{cases}
-\]
 
 \end{document}
