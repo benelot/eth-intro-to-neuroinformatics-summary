@@ -2,20 +2,21 @@
 \begin{document}
 
 %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-% Main Topics: Digital logic, Linear Threshold Unit/Gates, Introduction to Perceptron Learning Algorithm 21.11.2019
-% Lecturer: Matthew Cook
-% author: Vanessa Leite
+%\noindent
+%\textbf{Topics: Digital logic, Linear Threshold Unit/Gates, Introduction to Perceptron Learning Algorithm - 21.11.2019} \\
+%Lecturer: Dr. Matthew Cook \\
+%Author: Vanessa Leite \{vanessa at ini.uzh.ch\}
 
 \section{Introduction to Perceptron Learning Algorithm}
 
-We don't learn how the brain works by studying neurons, the same way that just by studying transistors we do not know how computer works.
+We don't learn how the brain works by studying neurons, the same way that just by studying transistors we do not know how a computer works.
 We know the brain does processing but we don't know how it works.
 The bottleneck to understand brain is probably that we do not have the right abstractions to understand it.
 
 McCulloch and Pitts developed a computational model of a biological neuron in 1943.
 The McCulloch-Pitts neural model is also known as linear threshold unit/gate. It is a neuron with a set of inputs and one output.
 
-\subsection{McCulloch and Pitts neurons vs biological neurons}
+\subsection{McCulloch-Pitts neurons vs biological neurons}
 \textbf{similarities:}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Both can be active or inactive.
@@ -47,7 +48,7 @@ Circuits are a combination of gates.
 	\label{fig:circuit-gates}
 \end{figure}
 
-The circuit in Figure~\ref{fig:circuit-gates} produces the same as an OR gate.
+The circuit in Figure~\ref{fig:circuit-gates} produces the same output as an OR gate.
 With NOT and AND gates we can build an OR gate, but with AND and OR we can't build a NOT gate.
 
 \paragraph{XOR gates = exclusive OR}
@@ -190,5 +191,31 @@ By contradiction in the limit of infinite steps, we can say that the algorithm c
 	\item If the output is not the expected value, then $e=d-c$, where $d$ is the desired output and $c$ the current output.
 	\item Change the weight of inputs and bias by $\Delta w_i=e\cdot\alpha\cdot x_i$. For the bias, always use $x=1$.
 \end{itemize}
+
+\subsection{Converting real weights to integer}
+Any unit can be converted into one with integer weights.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{converting-units-integer.png}
+	\caption{Converting real weights to integer}
+	\label{fig:converting}
+\end{figure}
+
+Figure~\ref{fig:converting} shows the approach to convert real weights to integer. The approximation (images left and center) can be problematic if $x$ in $\theta(x)$ is equal to zero (in the real setup), because it can be shifted in uthe approximation.
+In the second step (images center and right) there is no problem. By multiplying the weights by a factor of 10, we do not change the value of $x$ in $\theta(x)$.
+
+One way to solve the above problem (approximation) is to shift the bias term a bit.
+
+\begin{enumerate}
+\item Find the largest possible negative sum (closest to zero)
+\item Adjust bias (increase) if necessary, so no sum is zero
+\item Replace weights with rational approximations more precise than sum closest to zero
+\item Scale up weights to be integers
+\end{enumerate}
+
+In the first two steps, we avoid have a sum of zero. On the last two, we transform the weights to integer.
+
+So far, the difference of this unit and a real neuron is that neurons can adjust their own weight (learning) and these units are behaving as gates.
 
 \end{document}
