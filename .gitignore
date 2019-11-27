@@ -1,8 +1,8 @@
 /tmp/
-/main.pdf
 **.synctex.gz
 /build/
 /.project
+**.pdf
 **.aux
 **.log
 **.toc
