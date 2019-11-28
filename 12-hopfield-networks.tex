@@ -48,16 +48,26 @@ Hopfield Networks can be used to give us insights about how the memory works by 
 
 \subsection{Updates and State Dynamics}
 
-Maximize the sum of active weights (weights between active units) is the dynamic of Hopfield Network (updating the output of one unit at time). This results in a stable state. We update everything but the bias node (bias node are always active and do not change their state).
+Hopfield found that these networks always converge to a stable state.
+Idea: Consider the sum of weights between active units.
+The update rule is equivalent to always increase this quantity, i.e., we turn an unit active if $\sum x_i w_i >= 0$, where $x_i$ is the value of the state of each unit and $w_i$ is the weight between the units, thus maximizing the sum of active weights (weights between active units) by updating the output of one unit at time.
+In this setup, the update algorithm of Hopfield Networks can be seen as a greedy algorith to find the MAX-CLIQUE.
+We update all the units but the bias node (bias node are always active and do not change their state).
 
-Mathematically, we can consider active units as a ``$+1$'' and inactive units as ``$-1$''.
 Remember, here, inactive neurons don't send inhibitory signal, instead they do not take part in the activation of other neurons.
-With this new representation, the Hopfield Network dynamic is equivalent to a graph min-cut, i.e., we want to minimize the sum of weights that link active and inactive units.
+We can also consider active units as having a value of ``$+1$'' and inactive units as a ``$-1$''.
+In this new representation, the Hopfield Network dynamic is equivalent to a graph min-cut, i.e., we want to minimize the sum of weights that link active and inactive units.
 
-The above method is asynchronous.
-Let's consider a synchronous case (updating all units at the same time): active units for time $t+1$ are computed based on active units at time $t$.
+When we update one unit at time, we are using an asynchronous method.
+Asynchronous Hopfield Networks always converge to a stable state, regardless of the update order, however, to which stable state is dependent on the update order.
+
+TODO: Add figure and case where the stable state depends on the order
+
+Let's now consider a synchronous case, i.e., when we update all units at the same time: for this, active units for time $t+1$ are computed based on active units at time $t$.
+Consider the network on Figure~\ref{fig:synchronous-hopfield}, starting with units $1$ and $2$ active, in the next step of update, unit $3$ and $4$ will be active.
 
 \begin{figure}[H]
+	\label{fig:synchronous-hopfield}
 	\centering
 	\includegraphics[width=0.3\textwidth]{synchronous-hopfield.png}
 	\caption{Starting with 1 and 2 actives, in the next step 3 and 4 will be active. This network is not stable.}
