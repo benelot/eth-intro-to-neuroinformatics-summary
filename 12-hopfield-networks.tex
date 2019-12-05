@@ -9,7 +9,7 @@
 
 \section{Hopfield Networks}
 
-The Hopfield Networks, or Hopfield Model, was proposed by John Hopfield in the early 80s.
+The Hopfield Network, or Hopfield Model, was proposed by John Hopfield in the early 80s.
 He thought about connecting units to each other in an all-to-all pattern.
 When we look into the brain and how neurons are connected to each other, we do not see always a clear pathway, i.e., is hard to think about the connections in the brain in terms of input-output.
 
@@ -17,21 +17,24 @@ When we look into the brain and how neurons are connected to each other, we do n
 \begin{itemize}[noitemsep,nolistsep]
 	\item Every node is connected to every other node but not to itself.
 	\item Connection weights are symmetric.
-	\item $\sum x_i w_i < 0$ represents an inactive unit, $\sum x_i w_i \geq 0$ is active.
-	\item Entire Network is in some state at any time. Set of active units of the entire network is important.
+	\item $\sum x_i w_i < 0$ represents an inactive unit, $\sum x_i w_i \geq 0$ is active, when using a zero threshold.
+	\item The entire network is in some state at any time. Set of active units of the entire network is important.
 	\item Some states are stable and some are not. While in an unstable state, updating the network leads to a state change.
-	\item Stable state is a local minimum. This does however not have to happen.
+	\item Stable state is a local minimum.
 	\item Bias is an unit that is always on.
 	\item Weight symmetry of a connection is correlated to the frequency of neurons firing together (following Hebbian learning).
 \end{itemize}
 
 \subsection{Hopfield and Memory}
 
-We are used to think about computation as a process that receives an input, does something and generate an output.
-However, this is not we see in our memories, for instance.
+We are used to think about computation as a process that receives an input, does something and generates an output.
+However, this is not what we "see" in the memorie process, for instance.
 It seems our memory works with Pattern Completion, also known as Content Addressable Memory or Associative Memory.
 This memory has no input-output relation: given any piece of it, we can recover the rest.
+An example is when certain smell can bring us a memory, even though the smell is only part of the memory.
 Hopfield Networks can be used to give us insights about how the memory works by having a highly connected network that computes with no input-output, but with states.
+The network has some dynamics that "walk" through a state space, i.e., the space of all the possible states. The Hopfield Network is dynamic amd moves from one state to another until arrive to a stable state (also known as an attractor). Having stable states helps the network to recover information giving partial inputs.
+
 
 \begin{itemize}[noitemsep,nolistsep]
 	\item A Hopfield Network is an associative type of memory. Information is stored in the stable states as local minima.
@@ -50,27 +53,32 @@ Hopfield Networks can be used to give us insights about how the memory works by 
 
 Hopfield found that these networks always converge to a stable state.
 Idea: Consider the sum of weights between active units.
-The update rule is equivalent to always increase this quantity, i.e., we turn an unit active if $\sum x_i w_i >= 0$, where $x_i$ is the value of the state of each unit and $w_i$ is the weight between the units, thus maximizing the sum of active weights (weights between active units) by updating the output of one unit at time.
+The update rule is equivalent to always increase this quantity, i.e., we turn an unit active if $\sum x_i w_i >= \theta$, where $x_i$ is the value of the state of each unit, $w_i$ is the weight between the units and $\theta$ is the threshold, thus maximizing the sum of active weights (weights between active units) by updating the output of one unit at time.
 In this setup, the update algorithm of Hopfield Networks can be seen as a greedy algorith to find the MAX-CLIQUE.
 We update all the units but the bias node (bias node are always active and do not change their state).
+Remember, inactive neurons with zero threshold don't send inhibitory signal, instead they do not take part in the activation of other neurons.
 
-Remember, here, inactive neurons don't send inhibitory signal, instead they do not take part in the activation of other neurons.
 We can also consider active units as having a value of ``$+1$'' and inactive units as a ``$-1$''.
 In this new representation, the Hopfield Network dynamic is equivalent to a graph min-cut, i.e., we want to minimize the sum of weights that link active and inactive units.
 
 When we update one unit at time, we are using an asynchronous method.
-Asynchronous Hopfield Networks always converge to a stable state, regardless of the update order, however, to which stable state is dependent on the update order.
-
-TODO: Add figure and case where the stable state depends on the order
-
-Let's now consider a synchronous case, i.e., when we update all units at the same time: for this, active units for time $t+1$ are computed based on active units at time $t$.
-Consider the network on Figure~\ref{fig:synchronous-hopfield}, starting with units $1$ and $2$ active, in the next step of update, unit $3$ and $4$ will be active.
+Asynchronous Hopfield Networks always converge to a stable state, regardless of the update order, however, to which stable state is dependent on the update order, see Figure~\ref{fig:hopfield-order-update}.
 
 \begin{figure}[H]
-	\label{fig:synchronous-hopfield}
+	\centering
+	\includegraphics[width=0.7\textwidth]{hopfield-order-update.png}
+	\caption{Considering a Hopfield network with two units connected with weight $= 2$, threshold zero, and a bias unit of $-1$. Starting in a state with 1 active and 2 inactive, we can see how the order of update can lead to different stable states. By updating first unit $1$ then unit $2$, the stable state is with both units inactive. However, updating unit $2$ then unit $1$, we arrive to a stable state where both units are active.}
+	\label{fig:hopfield-order-update}
+\end{figure}
+
+Let's now consider a synchronous case, i.e., when we update all units at the same time: for this, active units for time $t+1$ are computed based on active units at time $t$.
+Consider the network on Figure~\ref{fig:synchronous-hopfield}, starting with units $1$ and $2$ active, in the next step of update (after all units), unit $3$ and $4$ should be active. It may be confusing to see this by updating one unit per time, let's say we update units in the order${1, 2, 3, 4}$: after updating unit $3$ it will become active but, when updating unit $4$, we shouldn't consider unit $3$, yet.
+
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\textwidth]{synchronous-hopfield.png}
-	\caption{Starting with 1 and 2 actives, in the next step 3 and 4 will be active. This network is not stable.}
+	\caption{Starting with 1 and 2 actives, in the next step 3 and 4 will be active. This network doesn't have a unique stable state but converges to a cycle between two states.}
+	\label{fig:synchronous-hopfield}
 \end{figure}
 
 Trick for analysis: make a larger asynchronous network based on the network we want to analyse. Duplicate the units in two columns and only use non-zero weights between them.
