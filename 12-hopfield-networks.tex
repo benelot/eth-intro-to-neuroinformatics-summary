@@ -33,7 +33,7 @@ It seems our memory works with Pattern Completion, also known as Content Address
 This memory has no input-output relation: given any piece of it, we can recover the rest.
 An example is when certain smell can bring us a memory, even though the smell is only part of the memory.
 Hopfield Networks can be used to give us insights about how the memory works by having a highly connected network that computes with no input-output, but with states.
-The network has some dynamics that "walk" through a state space, i.e., the space of all the possible states. The Hopfield Network is dynamic amd moves from one state to another until arrive to a stable state (also known as an attractor). Having stable states helps the network to recover information giving partial inputs.
+The network has some dynamics that "walk" through a state space, i.e., the space of all the possible states. The Hopfield Network is dynamic and moves from one state to another until arrive to a stable state (also known as an attractor). Having stable states helps the network to recover information giving partial inputs.
 
 
 \begin{itemize}[noitemsep,nolistsep]
@@ -53,24 +53,50 @@ The network has some dynamics that "walk" through a state space, i.e., the space
 
 Hopfield found that these networks always converge to a stable state.
 Idea: Consider the sum of weights between active units.
-The update rule is equivalent to always increase this quantity, i.e., we turn an unit active if $\sum x_i w_i >= \theta$, where $x_i$ is the value of the state of each unit, $w_i$ is the weight between the units and $\theta$ is the threshold, thus maximizing the sum of active weights (weights between active units) by updating the output of one unit at time.
+The update rule is equivalent to always increase this quantity, i.e., we turn an unit active if $\sum x_i w_i >= \theta$, where $x_i$ is the value of the state of each unit, $w_i$ is the weight between the units and $\theta$ is the threshold, thus maximizing the sum of active weights (weights between active units) by updating the output of one unit at time (see Figure~\ref{fig:asynchronous-update}).
 In this setup, the update algorithm of Hopfield Networks can be seen as a greedy algorith to find the MAX-CLIQUE.
 We update all the units but the bias node (bias node are always active and do not change their state).
 Remember, inactive neurons with zero threshold don't send inhibitory signal, instead they do not take part in the activation of other neurons.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{asynchronous-update-hopfield.png}
+	\caption{Hopfield network model, asynchronous updates and greedy algorith to find MAX-CLIQUE}
+	\label{fig:asynchronous-update}
+\end{figure}
+
+Consider the sum of all weights between active units (Figure~\ref{fig:asynchronous-update}: states are in the table on the right). In the beggining A and D are active, the sum of the active weights is 1.
+Now, we look at B and we sum the weights of the active units linked to B (D and A).
+The sum of active weights for B is ($10 - 3 = 7 >= 0$).
+If the sum $\geq 0$ we put the unit on the top part (unit active), otherwise we put the unit on the bottom (unit inactive), see Figure~\ref{fig:sum-weights}.
+If B becomes active, the sum increases (sum = 1 + 7).
+If B becomes inactive, the sum does not change (sum = 1).
+After updating C, the network achieves a stable state, i.e., updating any unit does not change its output.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{sum-weights-active-units.png}
+	\caption{Evaluation of node B}
+	\label{fig:sum-weights}
+\end{figure}
+
+When we update a unit and change its value (active or inactive), then the sum increases or stays the same (if we are making units active). When we make units inactive, the sum doesnt change.
 We can also consider active units as having a value of ``$+1$'' and inactive units as a ``$-1$''.
 In this new representation, the Hopfield Network dynamic is equivalent to a graph min-cut, i.e., we want to minimize the sum of weights that link active and inactive units.
 
+\paragraph{Asynchronous updates}
 When we update one unit at time, we are using an asynchronous method.
 Asynchronous Hopfield Networks always converge to a stable state, regardless of the update order, however, to which stable state is dependent on the update order, see Figure~\ref{fig:hopfield-order-update}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\textwidth]{hopfield-order-update.png}
-	\caption{Considering a Hopfield network with two units connected with weight $= 2$, threshold zero, and a bias unit of $-1$. Starting in a state with 1 active and 2 inactive, we can see how the order of update can lead to different stable states. By updating first unit $1$ then unit $2$, the stable state is with both units inactive. However, updating unit $2$ then unit $1$, we arrive to a stable state where both units are active.}
+	\caption{Considering a Hopfield network with two units connected with weight $= 2$, threshold zero, and a bias unit of $-1$. Starting in a state with 1 active and 2 inactive, we can see how the order of update can lead to different stable states.
+	By updating first unit $1$ then unit $2$, the stable state is with both units inactive. However, updating unit $2$ then unit $1$, we arrive to a stable state where both units are active.}
 	\label{fig:hopfield-order-update}
 \end{figure}
 
+\paragraph{Synchronous updates}
 Let's now consider a synchronous case, i.e., when we update all units at the same time: for this, active units for time $t+1$ are computed based on active units at time $t$.
 Consider the network on Figure~\ref{fig:synchronous-hopfield}, starting with units $1$ and $2$ active, in the next step of update (after all units), unit $3$ and $4$ should be active. It may be confusing to see this by updating one unit per time, let's say we update units in the order${1, 2, 3, 4}$: after updating unit $3$ it will become active but, when updating unit $4$, we shouldn't consider unit $3$, yet.
 
