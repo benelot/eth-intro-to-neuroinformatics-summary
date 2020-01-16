@@ -1,11 +1,11 @@
 \documentclass[main]{subfiles}
 \begin{document}
 
-%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-\noindent
-\textbf{Topics: Feed-Forward Networks and Backpropagation - 05.12.2019} \\
-Lecturer: Dr. Matthew Cook \\
-Author: Vanessa Leite \{vanessa at ini.uzh.ch\}
+%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+%\noindent
+%\textbf{Topics: Feed-Forward Networks and Backpropagation - 05.12.2019} \\
+%Lecturer: Dr. Matthew Cook \\
+%Author: Vanessa Leite \{vanessa at ini.uzh.ch\}
 
 \section{Feed-Forward Networks}
 
@@ -19,14 +19,52 @@ In the Feed-forward networks, the information moves in only one direction (forwa
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.25\textwidth]{Feed_forward_neural_net.png}
+	\includegraphics[width=0.3\textwidth]{Feed_forward_neural_net.png}
 \end{figure}
 
 A single unit, like a perceptron, can be seen as a feed-forward network.
 
+In feed-forward networks it is easy to evaluate each unit.
+The outputs are continuous functions of the input, which facilitates the optimization in case of wrong outputs.
+The training can be done using "training data": input/output pairs ($x_i, d_i)$. Where $x_i$ is the input value and $d_i$ is the desired output.
+Then we can define the error $E = \Sigma_k (f(x_k) - d_k)^2$, where $f(x_k)$ is the output of the network.
+How can we change the weights to reduce the error?
+We can use gradient descent.
+We calculate all the $\frac{\partial E}{\partial w_i}$ in the network, easily, by starting at the end and then walking backwards. This is known as Backpropagation.
+
 \subsection{Boltzmann Machines}
 
+Boltzmann Machines were invented in 1985 but not by Boltzmann.
+The name is given because these units use a Boltzmann distribution in their sampling function.
+
+These units are similar to Hopfield Networks, however, they have a probability of being active.
+When updating a unit, we set its value to zero or one probabilistically, following a sampling function, see Figure~\ref{fig:step-sigmoid-function}.
+Boltzmann machines do not converge, they do not reach a stable state.
+It can be seen as a system for sampling. It's a way to do a random walking in the state space.
+
+\paragraph{Sampling}
+There are many types of distributions.
+When we want to get examples of these distributions, we need to sample from it.
+And giving some samples we can recovery the distribution of the data.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{step-sigmoid-function.png}
+	\caption{Representations of activation function for Hopfield Networks (HN) and Boltzmann Machines}
+	\label{fig:step-sigmoid-function}
+\end{figure}
+
+We want the units to forget previous states so the sampling is not biased, i.e., not similar to previous ones, thus really "random".
+While this sampling is nice, it is not useful as a memory, i.e., we don't want to sample things randomly from our memory.
+
+We can define a network where the units have a real-valued activity level ($a_i \in [0,1]$), and also we can make time continuous, so $\frac{\partial a_i}{\partial t} = \theta(\Sigma)-a_i$.
+
+Using units like this, we can make a feed-forward network.
+
 \subsection{Backpropagation and Error function}
+Backpropagation is the process of calculating the derivatives, using the chain rule, from the last layer (directly connected with the output, thus, with the loss function) to the first layer (connected with the inputs).
+This process can be seen as walking through the network in a backwards manner.
+
 \begin{itemize}[noitemsep,nolistsep]
 	\item The inputs and desired outputs are given as $S=\{(x,d)^1,\ldots,(x,d)^l\}$.
 	\item The error function is given as $E(S) = \sum_i\frac{1}{2}||y(x^i)-d^i||^2$.
@@ -43,13 +81,17 @@ A single unit, like a perceptron, can be seen as a feed-forward network.
 
 \subsection{Gradient Descent}
 Consider $E = \sum(f_w(x) - y_i)^2$, we want to adjust $\vec{w}$ (weights of the network) to minimize $E$.
+Gradient descent is the process of descending through the gradients (using the derivatives calculated with backpropagation), in this algorithm we try to reach the minimum of the loss function.
+This is an iterative process.
 
-$\frac{dE}{df} = \sum 2(f_{\vec{w}} (x) - y_i)$.
+Generally, the iterative process is given by $\theta_{i_new} = \theta_i + \Delta \theta_i$, where $\Delta \theta_i = - \alpha \frac{\partial J(\theta)}{\partial \theta_i}$.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{activation-functions.png}
-	\caption{left-most figure: $f_{w_0} (x) = \theta(wf + w...)$, $\frac{df}{dw} = 0 \rightarrow \theta$ is not a good threshold function. Using a new threshold function (center figure). Right figure: $\frac{df}{dw} = \theta\prime$.}
+	\caption{left-most figure: $f_{w_0} (x) = \theta(wf + w...)$, $\frac{df}{dw} = 0 \rightarrow \theta$ is not a good threshold function.
+To know in what direction we should move to find our minima, we need to use a threshold function that is continuous and differentiable, like the one in the center figure.
+Right figure: $\frac{df}{dw} = \theta\prime$.}
 \end{figure}
 
 \end{document}
