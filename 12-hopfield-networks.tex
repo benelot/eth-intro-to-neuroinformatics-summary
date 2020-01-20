@@ -115,6 +115,7 @@ Trick for analysis: make a larger asynchronous network based on the network we w
 	\caption{Starting with 1 and 2 actives, we will end up with 3 and 4 active in the second column. First column represents $t=0$, second $t=1$. With synchronous updates, a Hopfield Network converges to a cycle of length 2 or to a stable state.}
 \end{figure}
 
+\paragraph{Summary}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Nodes can be updated synchronously or asynchronously.
 	\item State: Set of units that are active, it can be seen as the activity vector.
@@ -125,5 +126,49 @@ Trick for analysis: make a larger asynchronous network based on the network we w
 	\item Synchronous, parallel updates either also go to a stable state, just like asynchronous, or can get stuck in a pair of patterns (flipping or cyclic).
 \end{itemize}
 
+\subsection{Hebbian learning in Hopfield Networks}
+Learning the network weights that lead to a stable pattern can be implemented using Hebbian Learning.
+We update the network's weight (initially set to zero) in each iteraction according to the rule:
+$w_{ij} \leftarrow w_{ij} + x_i^k x_j^k$, $i\neq j$.\\
+Where $x_i^k$ and $x_j^k$ denote the $i-$th and $j-$th component respectively of each vector $x_k$, and $k$ is the number of patterns that we want to learn.
+
+Consider that we want to learn the patterns: $x_1 = [ -1, 1, 1, -1]$ and $x_2 = [-1, 1, -1, 1]$.
+The initial weight matrix of the network is:
+\[
+W = 
+\begin{pmatrix}
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{pmatrix}
+\]
+Then we present the first pattern to be learn, i.e., update all weights using the mentioned rule.
+This way, for instance, $w_{12} = \underbrace{0}_{\text{previous weight}} + \underbrace{(-1)}_{\text{first element in $x_1$}}\overbrace{(1)}^{\text{second element in $x_1$}}$.
+
+After the presentation of all the components of the first pattern, we will have: $W_1 = x_1^T x_1 - I$. We subtract the identity matrix to impose that the diagonal of $W$ has zero entries.
+\[
+W_1 = 
+\begin{pmatrix}
+0 & -1 & -1 & 1\\
+-1 & 0 & 1 & -1\\
+-1 & 1 & 0 & -1\\
+1 & -1 & -1 & 0
+\end{pmatrix}
+\]
+
+After the presentation of the second pattern: $W_2 = W_1 + x_2^T x_2 - I$.
+
+\[
+W_2 = 
+\begin{pmatrix}
+0 & -2 & 0 & 0\\
+-2 & 0 & 0 & 0\\
+0 & 0 & 0 & -2\\
+0 & 0 & -2 & 0
+\end{pmatrix}
+\]
+
+Because $w_{ij} \neq 0$ in Hopfield networks, we cannot use this solution. We would find a solution only by applying the perceptron learning algorithm.
 
 \end{document}
