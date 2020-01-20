@@ -134,6 +134,7 @@ To compute XOR with LT, it is required that:
 This causes a contradiction because $x_1 \times w_1 + x_2 \times w_2 + 2 \times w_0 < 0$ and $x_1 \times w_1 + x_2 \times w_2 + 2 \times w_0 \geq 0$ when adding up the constraints.
 
 XOR is not a linear combination of the inputs.
+And the perceptron/LT uses a line to separate classes, i.e., all the points in the same side of the line will have the same output.
 Although these units can't model the XOR, they are still powerful.
 You can't calculate it with a single unit, but with a combination of them, it is possible.
 The same way, one cannot compute the XOR function using one single OR, NOT or AND gate.
@@ -145,6 +146,7 @@ For implementing the XOR function, McCulloch and Pitts units allow exponentially
 \subsection{Perceptron Learning Algorithm}
 
 \begin{table}[H]
+\centering
 \begin{tabular}{cc|c}
 x1 & x2 & f \\ 
 \hline
@@ -153,13 +155,21 @@ x1 & x2 & f \\
 1  & 0  & 1 \\
 1  & 1  & 1 \\ 
 \end{tabular}
+\caption{Two inputs $x1$ and $x2$ resulting in $f$}
+\label{tab:simple_function}
 \end{table}
 
-Can we set $w_0, w_1, w_2$ so that this unit computes the above $f$?
-We start with random weights, let's say all zero.
+\paragraph{Supervised error-correcting rules}
+We start with an initial guess of weights, compare the output in response to the input with the desired output and change the weights to improve the performance. \\
+
+Consider the mapping on the Table~\ref{tab:simple_function}.
+Can we set $w_0, w_1, w_2$ (bias term, and the weights of each input) so that this unit computes the $f$ from the table?
+Learning happens by changing synaptic weights.
+How can we change the synaptic weights of a unit to make it behave as desired?
+
+Let's start with random weights, let's say all zero.
 With this weights, doesn't matter the values of $x_1$ and $x_2$, the result will always be 1.
 And for the second case ($x_1 = 0, x_2 = 1, f = 0$) we produce a wrong output.
-
 So, we reduce $w_0$ and $w_2$ because they contribute to the sum ($0 \times w_1 + 1 \times w_2 + w_0$).
 We reduce the weights if the sum should go down and we increase the weights if the sum should go up. We iterate this step until convergence.
 
@@ -169,20 +179,69 @@ We can consider the bias as a weight with input value always one ($x_0 = 1$), th
 
 \paragraph{Recall} $\vec{w} \times \vec{x} = |\vec{w}| \times |\vec{x}| \times \cos \alpha$.
 So, if $\alpha < 90\deg$, $\vec{w} \times \vec{x}$ is greather than zero and if $\alpha > 90\deg$, $\vec{w} \times \vec{x} < 0$.
+This way, we compute a similarity between the weight vector and the input vector. \\
 
-This way, we compute a similarity between the weight vector and the input vector.
+\subsubsection{Convergence}
+These single units can separate two classes if they are linearly separable (i.e., if a solution exists). The Perceptron Learning Algortithm must converge, i.e., it will update the weights a finite number of times.
 
+\paragraph{Proof 1}
+Suppose there is a solution $\vec{w}^*$, i.e., the data is linearly separable.
 The weights of the perceptron units can be seen as the components of a normal vector to the hyperplane that separates the classes ($1$ and $0$).
 In  fact, the  length of the normal vector doesnt matter, we are looking for its direction.
-
-\paragraph{Convergence}
-Suppose there is a solution $\vec{w}^*$, i.e., the data is linearly separable.
 Pick any solution $\vec{w}$, for instance, starting with all weights as zero, if this solution already satisfies our conditions, we are done.
 Otherwise, we pick an arbitrary missclassified point and update $\vec{w}$.
 Each step makes progress in the $\vec{w}^*$ direction, because additions to $\vec{w}$ are always $\leq 90\deg$.
 The magnitude of $\vec{w}^* \times \vec{w}$ increases linearly.
 Since $\vec{w}^*$ doesn't change, there is a maximum growth from $\vec{w}$ to achieve the solution.
 By contradiction in the limit of infinite steps, we can say that the algorithm converges, i.e., if there is a solution and it takes infinite steps to achieve it, this is a contradiction.
+
+\paragraph{Proof 2}
+In homogeneous coordinates $\mathcal{\hat{X}}^{\prime}_{n} \equiv \{ \hat{x}^{\prime}_{i} = l_i \hat{x}_i | (x_i, l_i) \in \mathcal{\hat{X}}_{n} \}$.
+\begin{itemize}
+\item $\hat{w}^{*}$ (solution) $\in \mathbb{R}^{n+1}$ is the homogeneous weight vector: $\hat{w}^T \hat{x}^{\prime}_i > 0, \forall i = 1, \dots, n$.
+\item $hat{w}(k) \in \mathbb{R}^{n+1}$ is the homogeneous weight vector of the $k-$th update.
+\item $\hat{x}^{\prime}(k) \in \mathcal{\hat{X}}^{\prime}_n$ is the normalized homogeneous feature vector that triggered the update.
+\end{itemize}
+Then, $\hat{w}(1) = \hat{w}(0) + \eta \hat{x}^{\prime}(1)$, $\hat{w}(2) = \hat{w}(1) + \eta \hat{x}^{\prime}(2)$, $\hat{w}(3) = \hat{w}(2) + \eta \hat{x}^{\prime}(3)$, $\dots$, $\hat{w}(k) = \hat{w}(k-1) + \eta \hat{x}^{\prime}(k)$.
+Can we find two constants $A$ and $B$ such that:
+\begin{equation}
+Ak^2 \leq || \hat{w}(k) - \hat{w}(0) || \leq Bk
+\label{eq:convergence}
+\end{equation}
+?
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{pla_convergence_proof.png}
+	\caption{The space of searching for the solution has an upper and a lower bound.}
+	\label{fig:simplified-LT}
+\end{figure}
+If~\ref{eq:convergence} holds then the growth of $\hat{w}(k)$ is limited.
+As $k$ increases, $Bk$ will be smaller then $Ak^2$.
+For~\ref{eq:convergence} to hold, $|| \hat{w}(k) - \hat{w}(0) ||$ cannot increase after $k = \frac{B}{A}$ updates.
+
+We show that the vector that is the difference between the original vector and the $k-$th one is limited: the algorithm must converge.
+
+\textbf{Lower bound $A$}:\\
+\indent \indent $\hat{w}(k) = \hat{w}(0) + \eta (\hat{x}^{\prime}(1) + \hat{x}^{\prime}(2) + \dots + \hat{x}^{\prime}(k))$\\
+\indent \indent $\hat{w}^{*T} (\hat{w}(k) - \hat{w}(0)) = \hat{w}^{*T} \eta (\hat{x}^{\prime}(1) + \hat{x}^{\prime}(2) + \dots + \hat{x}^{\prime}(k))$ \\
+\indent \indent Given $a = \min_{\hat{x} \in \hat{\mathcal{X}}^{\prime}_{m}} \hat{w}^{*T} \hat{x}^{\prime} > 0$ then $\hat{w}^{*T}(\hat{w}(k) - \hat{w}(0)) \geq \underbrace{\eta a k}_{\text{summing $k$ times the minimum term}} > 0$\\
+\indent \indent From the Cauchy-Schwartz: $\| a \|^2 \| b \| ^2 > |a^T b |^2$\\
+\indent \indent $\|\hat{w}^{*T}\|^2 \|\hat{w}(k) - \hat{w}(0) \|^2 > | \hat{w}^{*T} (\hat{w}(k) - \hat{w}(0)|^2 \geq (\eta a k )^2$ \\
+\indent \indent $\rightarrow \| \hat{w}(k) - \hat{w}(0)\|^2 \geq \underbrace{\left( \frac{\eta a}{\| \hat{w}^* \|} \right)^2}_{A} k^2$.\\
+
+\textbf{Upper bound $B$}:\\
+\indent \indent $\hat{w}(1) - \hat{w}(0) = \eta \hat{x}^{\prime}(1)$\\
+\indent \indent $\hat{w}(k) - \hat{w}(0) = (\hat{w}(k-1) - \hat{w}(0)) + \eta \hat{x}^{\prime}(k)$\\
+\indent \indent $\| \hat{w}(1) - \hat{w}(0) \| ^2 = \eta \|\hat{x}^{\prime}(1) \|^2$\\
+\indent \indent $\| \hat{w}(k) - \hat{w}(0) \|^2 = \| \hat{w}(k-1) - \hat{w}(0)\|^2 + 2 \eta (\| \hat{w}(k-1) - \hat{w}(0)\|^2)^T \hat{x}^{\prime}(k) + \|\hat{x}^{\prime}(k)\|^2 \eta^2$\\
+\indent \indent Since $\hat{x}^{\prime}(1)$ triggers the first update, then $\hat{w}(0)^{T} \hat{x}^{\prime}(1) <0 \rightarrow \hat{w}(j-1)^T \hat{x}^{\prime}(j) < 0$ $\forall j = 1, \dots, k$\\
+\indent \indent Summing up the above: $\| \hat{w}(k) - \hat{w}(0) \|^2 \leq \| \hat{w}(k-1) - \hat{w}(0)\|^2 + B^2$\\
+\indent \indent By induction: $\| \hat{w}(k) - \hat{w}(0) \|^2 \leq k B^2$\\
+
+\textbf{Combining the bounds:}\\
+\indent \indent $k^2 A \| \leq \| \hat{w}(k) - \hat{w}(0) \|^2 \leq k B^2$\\
+\indent \indent from which follows that $k \leq \frac{B^2}{A}$. So, the number of errors the PLA makes is finite.
 
 \paragraph{Algorithm}
 \begin{itemize}[noitemsep,nolistsep]
