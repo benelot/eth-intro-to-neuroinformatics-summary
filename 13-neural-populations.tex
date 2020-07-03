@@ -9,7 +9,7 @@
 
 \section{Interacting Neural Populations}
 
-\subsubsection{Neural Encoding of Information}
+\subsection{Neural Encoding of Information}
 
 How the neurons encoding/process information?
 We would like to understand it in a mechanistic level.
@@ -31,9 +31,9 @@ Neurons response is called firing rates. Although neurons are tuned, they aren't
 Information is encoded by a group (population) of neurons. A group includes all neurons in that area. The values are encoded by pattern of activity.
 
 Given a parameter, and looking at the neurons tuned to some value of this parameter, we can define tunning curves.
-In Figure~\ref{fig:tuning-curves}(a), we see in the $x$ axis the parameter we are evaluating, and in the $y$ axis, the activity of one single neuron (firing response).
+In Figure~\ref{fig:tuning-curve}, we see in the $x$ axis the parameter we are evaluating, and in the $y$ axis, the activity of one single neuron (firing response).
 Doing this process to many neurons, we can sort them regarding to the parameter we are looking for.
-In Figure~\ref{fig:tuning-curves}(b) all neurons were ordered accordingly to the response to a specific parameters.
+In Figure~\ref{fig:cell-order} all neurons were ordered accordingly to the response to a specific parameters.
 
 The read out of information given a population code is an easy way to figure out what the population is doing, it is robust to noise, however, requires a lot of units.
 
@@ -43,29 +43,31 @@ The read out of information given a population code is an easy way to figure out
 		\centering
 		\includegraphics[width=\textwidth]{one-cell-tuning-curve.png}
 		\caption{Tuning curve of one cell}
+		\label{fig:tuning-curve}
 	\end{subfigure}%
 	~
 	\begin{subfigure}[b]{0.3\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{cell-order.png}
 		\caption{Cells ordered by response to $20^\circ$}
+		\label{fig:cell-order}
 	\end{subfigure}
 	~ 
 	\begin{subfigure}[b]{0.3\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{3D-visualisation.png}
 		\caption{3D visualization of cell's response to different degrees}
-		\label{fig:tuning-curves}
+		\label{fig:3d}
 	\end{subfigure}
 \end{figure}
 
-Consider now an example were we want to correlate the angle of the eye (E), the position of an object on retina (R) and the head-centered direction (A), as showed in Figure~\ref{fig:population}(a).
+Consider now an example were we want to correlate the angle of the eye (E), the position of an object on retina (R) and the head-centered direction (A), as showed in Figure~\ref{fig:APE}.
 This is an example of processing that is not feed-forward.
 
 How can a relation like $A = E + R$ be represented?
 Say $R$, $A$ and $E$ are encoded by population codes, i.e., by population of units, each tuned to a particular value of that variable. Considering these three variables, we can use units that are tuned to combinations of A, E and R.
 The set of $(A, E, R)$ triples that satisfy the relation will be active.
-This can be seen in Figure~\ref{fig:population}(b): when certain neuron fires for a parameter in $R$, another one can fire for a parameter in $E$ and this can result in the firing of neurons in $E$, after learning.
+This can be seen in Figure~\ref{fig:REA}: when certain neuron fires for a parameter in $R$, another one can fire for a parameter in $E$ and this can result in the firing of neurons in $E$, after learning.
 Given any two information in this relation, the third one can be recovered. There is no obligatory order.
 
 $R$, $A$ and $E$ have the following relations:
@@ -81,13 +83,14 @@ $R$, $A$ and $E$ have the following relations:
 		\centering
 		\includegraphics[width=\textwidth]{ape-picture.png}
 		\caption{Monkey holding gaze fixed on point $10^\circ$ and light falling in from $20^\circ$}
+		\label{fig:APE}
 	\end{subfigure}%
 	~
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Retina-Eye-Auditory.png}
 		\caption{Visualization of Retina angle ordering cell set R, Eye angle ordering set E,2D result population C and auditory direction set A.}
-		\label{fig:population}
+		\label{fig:REA}
 	\end{subfigure}
 \end{figure}
 
