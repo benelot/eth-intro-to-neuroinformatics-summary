@@ -3,18 +3,21 @@
 
 %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 %\noindent
-%\textbf{Topics: Digital logic, Linear Threshold Unit/Gates, Introduction to Perceptron Learning Algorithm - 21.11.2019} \\
+%\textbf{Topics: Digital logic, Linear Threshold Unit/Gates, Introduction to Perceptron Learning Algorithm - 19.11.2020} \\
 %Lecturer: Dr. Matthew Cook \\
 %Author: Vanessa Leite \{vanessa at ini.uzh.ch\}
 
 \section{Introduction to Perceptron Learning Algorithm}
 
+When we look inside the brain, we see a bunch of neurons and a mess of connectivities.
+It's really hard to identify the connections among neurons, and with this information to understand how the brain works.
 We don't learn how the brain works by studying neurons, the same way that just by studying transistors we do not know how a computer works.
 We know the brain does processing but we don't know how it works.
 The bottleneck to understand brain is probably that we do not have the right abstractions to understand it.
 
 McCulloch and Pitts developed a computational model of a biological neuron in 1943.
-The McCulloch-Pitts neural model is also known as linear threshold unit/gate. It is a neuron with a set of inputs and one output.
+The McCulloch-Pitts neural model is also known as linear threshold unit/gate.
+It models a neuron with a set of inputs and one output.
 
 \subsection{McCulloch-Pitts neurons vs biological neurons}
 \textbf{similarities:}
@@ -33,10 +36,23 @@ The McCulloch-Pitts neural model is also known as linear threshold unit/gate. It
 \subsection{(Basic) Digital Logic}
 
 Gates are processing units.
+They are functions that evaluate the inputs.
+Each inputs has a $0/1$ value that can be seen as a false/true in digital logic.
+There are different types of gates, each type is represented by a shape, but we can also just use their names to refer to them.
+Figure~\ref{fig:basic-gates} shows basic types of gates and their shapes: and, or and not.
+The behavior of a gate does not depend on the number of inputs.
+For instance, an AND gate returns $1$ (or true) only if all the inputs are also $1$ (or true), independent of the number of inputs.
+The same is valid for the OR gate, that only returns $0$ (or false) when all the inputs are $0$ (or false).
 
-\begin{figure}[H]
+We use gates to help us to understand the computation that might be happen in the brain.
+Neurons and axons do not behave as wires, but this is the tool we have available.
+And while neurons do note have $0$s and $1$s, they can be active/inactive, what gives us a good approximation.
+
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.5\textwidth]{basic-gates.png}
+	\caption{Basic gates.}
+	\label{fig:basic-gates}
 \end{figure}
 
 Circuits are a combination of gates.
@@ -65,7 +81,13 @@ For more than two, XOR counts the number of "active" ($1$'s) inputs and returns 
 A table with $N$ inputs has $2^N$ rows.
 
 \paragraph{Other gates}
+There are more gates in digital logic than AND, OR and NOT gates.
+The Table~\ref{table:truth-table} shows a few more types of gates with its truth table.
 
+\begin{table}[h!]
+\centering
+\caption{Truth table of logic gates.}
+\label{table:truth-table}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 	\hline
 	\multicolumn{2}{|c|}{Input} &
@@ -77,15 +99,18 @@ A table with $N$ inputs has $2^N$ rows.
 	1 & 0 & 0 & 1 & 0 & 1 & 1 & 0 & 0\\\hline
 	1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 1\\\hline
 \end{tabular}
+\end{table}
 
 \subsection{Linear Threshold (LT) Unit/Gates (Perceptron)}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\textwidth]{perceptron.png}
+	\caption{Perceptron}
+	\label{fig:perceptron}
 \end{figure}
 
-This model represents a neuron with inputs $x$ and one output $y$.
+The model in Figure~\ref{fig:perceptron} represents a neuron with inputs $x$'s and one output $y$.
 Weights $w$ determine the influence of the inputs.
 $f$ is a function determining the output: if the influence of all the inputs combined cross a threshold, then the neuron become active.
 Active state: $\sum_i(w_i\cdot x_i) \geq \theta$.
@@ -95,7 +120,8 @@ We add a bias input as $-\theta$ so that $w_0+\sum_i(w_i\cdot x_i)\geq0$ activat
 As a digital abstraction, we consider that the activity of a neuron can be described as $0$ or $1$. Where $0$ is inactive and $1$ is active.
 
 Neurons can learn by adjusting their weights, they can have thousand of inputs.
-For a desired behavior there are many possible weight vectors that can work (if any can work). 
+For a desired behavior there are many possible weight vectors that can work (if any can work).
+
 This model can create AND/OR/NOT-Gates.
 
 \subsubsection{Threshold function}
@@ -122,7 +148,7 @@ $f(\vec{x}) = \theta(\vec{w} \times \vec{x} + w_0)$\\
 \]
 
 \subsubsection{XOR impossibility with LT/Perceptrons}
-To compute XOR with LT, it is required that:
+To compute XOR (please check the truth table for XOR in the Table~\ref{table:truth-table}) with LT, it is required that:
 
 \begin{itemize}[noitemsep,nolistsep]
 	\item $w_0 < 0$
@@ -145,6 +171,9 @@ For implementing the XOR function, McCulloch and Pitts units allow exponentially
 
 \subsection{Perceptron Learning Algorithm}
 
+This algorithm is called a learning algorithm because we use it to define the weights of the neurons.
+This learning is just a definition of parameters, and can be seen as an optimization, where we have some guess and we want to improve it.
+
 \begin{table}[H]
 \centering
 \begin{tabular}{cc|c}
@@ -160,10 +189,11 @@ x1 & x2 & f \\
 \end{table}
 
 \paragraph{Supervised error-correcting rules}
-We start with an initial guess of weights, compare the output in response to the input with the desired output and change the weights to improve the performance. \\
+We start with an initial guess of weights, we compare the output in response to the input with the desired output and then we change the weights to improve the performance. \\
 
 Consider the mapping on the Table~\ref{tab:simple_function}.
 Can we set $w_0, w_1, w_2$ (bias term, and the weights of each input) so that this unit computes the $f$ from the table?
+
 Learning happens by changing synaptic weights.
 How can we change the synaptic weights of a unit to make it behave as desired?
 
@@ -171,7 +201,8 @@ Let's start with random weights, let's say all zero.
 With this weights, doesn't matter the values of $x_1$ and $x_2$, the result will always be 1.
 And for the second case ($x_1 = 0, x_2 = 1, f = 0$) we produce a wrong output.
 So, we reduce $w_0$ and $w_2$ because they contribute to the sum ($0 \times w_1 + 1 \times w_2 + w_0$).
-We reduce the weights if the sum should go down and we increase the weights if the sum should go up. We iterate this step until convergence.
+We reduce the weights if the sum should go down and we increase the weights if the sum should go up.
+We iterate this step until convergence.
 
 We can consider the bias as a weight with input value always one ($x_0 = 1$), thus, we can write:
 
@@ -182,7 +213,8 @@ So, if $\alpha < 90\deg$, $\vec{w} \times \vec{x}$ is greather than zero and if 
 This way, we compute a similarity between the weight vector and the input vector. \\
 
 \subsubsection{Convergence}
-These single units can separate two classes if they are linearly separable (i.e., if a solution exists). The Perceptron Learning Algortithm must converge, i.e., it will update the weights a finite number of times.
+These single units can separate two classes if they are linearly separable (i.e., if a solution exists).
+The Perceptron Learning Algortithm must converge, i.e., it will update the weights a finite number of times.
 
 \paragraph{Proof 1}
 Suppose there is a solution $\vec{w}^*$, i.e., the data is linearly separable.
@@ -197,26 +229,23 @@ By contradiction in the limit of infinite steps, we can say that the algorithm c
 
 \paragraph{Proof 2}
 In homogeneous coordinates $\mathcal{\hat{X}}^{\prime}_{n} \equiv \{ \hat{x}^{\prime}_{i} = l_i \hat{x}_i | (x_i, l_i) \in \mathcal{\hat{X}}_{n} \}$.
+
 \begin{itemize}
 \item $\hat{w}^{*}$ (solution) $\in \mathbb{R}^{n+1}$ is the homogeneous weight vector: $\hat{w}^T \hat{x}^{\prime}_i > 0, \forall i = 1, \dots, n$.
-\item $hat{w}(k) \in \mathbb{R}^{n+1}$ is the homogeneous weight vector of the $k-$th update.
+\item $\hat{w}(k) \in \mathbb{R}^{n+1}$ is the homogeneous weight vector of the $k-$th update.
 \item $\hat{x}^{\prime}(k) \in \mathcal{\hat{X}}^{\prime}_n$ is the normalized homogeneous feature vector that triggered the update.
 \end{itemize}
+
 Then, $\hat{w}(1) = \hat{w}(0) + \eta \hat{x}^{\prime}(1)$, $\hat{w}(2) = \hat{w}(1) + \eta \hat{x}^{\prime}(2)$, $\hat{w}(3) = \hat{w}(2) + \eta \hat{x}^{\prime}(3)$, $\dots$, $\hat{w}(k) = \hat{w}(k-1) + \eta \hat{x}^{\prime}(k)$.
-Can we find two constants $A$ and $B$ such that:
+
+Can we find two constants $A$ and $B$ such that
 \begin{equation}
 Ak^2 \leq || \hat{w}(k) - \hat{w}(0) || \leq Bk
 \label{eq:convergence}
 \end{equation}
 ?
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\textwidth]{pla_convergence_proof.png}
-	\caption{The space of searching for the solution has an upper and a lower bound.}
-	\label{fig:simplified-LT}
-\end{figure}
-If~\ref{eq:convergence} holds then the growth of $\hat{w}(k)$ is limited.
+If Equation~\ref{eq:convergence} holds then the growth of $\hat{w}(k)$ is limited.
 As $k$ increases, $Bk$ will be smaller then $Ak^2$.
 For~\ref{eq:convergence} to hold, $|| \hat{w}(k) - \hat{w}(0) ||$ cannot increase after $k = \frac{B}{A}$ updates.
 
@@ -241,7 +270,14 @@ We show that the vector that is the difference between the original vector and t
 
 \textbf{Combining the bounds:}\\
 \indent \indent $k^2 A \| \leq \| \hat{w}(k) - \hat{w}(0) \|^2 \leq k B^2$\\
-\indent \indent from which follows that $k \leq \frac{B^2}{A}$. So, the number of errors the PLA makes is finite.
+\indent \indent from which follows that $k \leq \frac{B^2}{A}$. So, the number of errors the PLA makes is finite, as shown in Figure~\ref{fig:pla_convergence_proof}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{pla_convergence_proof.png}
+	\caption{The space of searching for the solution has an upper and a lower bound.}
+	\label{fig:pla_convergence_proof}
+\end{figure}
 
 \paragraph{Algorithm}
 \begin{itemize}[noitemsep,nolistsep]
