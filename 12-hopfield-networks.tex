@@ -55,7 +55,7 @@ The network has some dynamics that \"walk" through a state space, i.e., the spac
 Hopfield found that these networks always converge to a stable state.
 Idea: Consider the sum of weights between active units ($Q$).
 The update rule is equivalent to always increase $Q$, i.e., we turn an unit active if $\sum x_i w_i >= \theta$, where $x_i$ is the value of the state of each unit, $w_i$ is the weight between the units and $\theta$ is the threshold, thus maximizing $Q$ (weights between active units) by updating the output of one unit at time (see Figure~\ref{fig:asynchronous-update}).
-In this setup, the update algorithm of Hopfield Networks can be seen as a greedy algorith to find the MAX-CLIQUE.
+In this setup, the update algorithm of Hopfield Networks can be seen as a greedy algorithm to find the MAX-CLIQUE.
 We update all the units but the bias node (bias node are always active and do not change their state).
 Remember, inactive neurons with zero threshold don't send inhibitory signal, instead they do not take part in the activation of other neurons.
 

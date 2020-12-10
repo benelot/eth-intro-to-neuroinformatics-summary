@@ -3,11 +3,14 @@
 
 %%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 %\noindent
-%\textbf{Topics: Interacting Neural Populations and Population Codes - 12.12.2019} \\
+%\textbf{Topics: Interacting Neural Populations and Population Codes - 10.12.2020} \\
 %Lecturer: Dr. Matthew Cook \\
 %Author: Vanessa Leite \{vanessa at ini.uzh.ch\}
 
 \section{Interacting Neural Populations}
+
+We know how to think about units and their computation, but we don't exactly know how to think about how the information is processed .
+To try to understand it, we use engineering tools, but we don't know how the brain is doing it.
 
 \subsection{Neural Encoding of Information}
 
@@ -24,11 +27,16 @@ Neurons respond to \textbf{combinations} of properties, features, aspects of the
 Neurons are tuned to a set of values for the parameters they care about.
 For example, a neuron can be ``tuned" to a moving bar at a certain angle in its perceptive field. It also responds to a certain velocity, position (x,y), bar width, etc.
 
-Neurons response is called firing rates. Although neurons are tuned, they aren't super picky about the exact values. And, experimentally, neurons do not code a single atributte but a combination of them.
+Neurons response is called firing rates.
+Although neurons are tuned, they aren't super picky about the exact values.
+And, experimentally, neurons do not code a single atributte but a combination of them.
 
 \paragraph{Population code}
 
-Information is encoded by a group (population) of neurons. A group includes all neurons in that area. The values are encoded by pattern of activity.
+Information is encoded by a group (population) of neurons.
+A group includes all neurons in that area.
+The values are encoded by the pattern of activity.
+This code of information by population is our understanding of how neurons represent information, but this is not how we do it, typically, in an engineering process.
 
 Given a parameter, and looking at the neurons tuned to some value of this parameter, we can define tunning curves.
 In Figure~\ref{fig:tuning-curve}, we see in the $x$ axis the parameter we are evaluating, and in the $y$ axis, the activity of one single neuron (firing response).
@@ -65,10 +73,12 @@ Consider now an example were we want to correlate the angle of the eye (E), the 
 This is an example of processing that is not feed-forward.
 
 How can a relation like $A = E + R$ be represented?
-Say $R$, $A$ and $E$ are encoded by population codes, i.e., by population of units, each tuned to a particular value of that variable. Considering these three variables, we can use units that are tuned to combinations of A, E and R.
+Say $R$, $A$ and $E$ are encoded by population codes, i.e., by population of units, each tuned to a particular value of that variable.
+Considering these three variables, we can use units that are tuned to combinations of A, E and R.
 The set of $(A, E, R)$ triples that satisfy the relation will be active.
 This can be seen in Figure~\ref{fig:REA}: when certain neuron fires for a parameter in $R$, another one can fire for a parameter in $E$ and this can result in the firing of neurons in $E$, after learning.
-Given any two information in this relation, the third one can be recovered. There is no obligatory order.
+Given any two information in this relation, the third one can be recovered.
+There is no obligatory order.
 
 $R$, $A$ and $E$ have the following relations:
 \begin{itemize}
@@ -89,7 +99,7 @@ $R$, $A$ and $E$ have the following relations:
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Retina-Eye-Auditory.png}
-		\caption{Visualization of Retina angle ordering cell set R, Eye angle ordering set E,2D result population C and auditory direction set A.}
+		\caption{Visualization of Retina angle ordering cell set R, Eye angle ordering set E, 2D result population C and auditory direction set A.}
 		\label{fig:REA}
 	\end{subfigure}
 \end{figure}
